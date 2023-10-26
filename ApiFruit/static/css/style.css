@@ -1,0 +1,158 @@
+
+.card {
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+transition:all 0.3s;
+margin:20px;
+}
+.card:hover {
+    transform: scale(1.08);
+    }
+.footer-cta {
+box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+}
+.card-body{
+    text-align: center;
+}
+.price {
+color: #263238;
+font-size: 24px;
+}
+
+.card-title {
+color:#263238
+}
+
+.sale {
+color: #E53935
+}
+
+.sale-badge {
+background-color: #E53935
+}
+
+
+* {
+    box-sizing: border-box;
+  }
+  .imgtop{
+    height:500px;
+    width: 100%;
+  }
+  .bg-image {
+    /* The image used */
+    background-image: url("../imgs/bg1.jpg");
+  
+    /* Add the blur effect */
+    filter: blur(6px);
+    
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .bg-text1 {
+    
+    color: white;
+    font-weight: bold;
+    font-size: 100px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+  }
+  /* Position text in the middle of the page/image */
+  .bg-text2 {
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .side-nav{
+    background-color: rgb(104, 103, 103) !important;
+  }
+
+  .side-nav .title{
+    
+    height:auto;
+    font-size: 30px;
+
+    font-weight: bold;
+    border-bottom: 2px double black;
+    margin-top:20px
+  }
+
+  .side-nav .element a{
+    
+    font-size: 20px;
+    color:black;
+    text-decoration: none;
+    transition:all 0.3s;
+
+  }
+
+  .side-nav .element a:hover{
+    font-size: 22px;
+    color:white;
+  }
+  .side-nav .element{
+    
+    margin:10px;
+  }
+  .recherche{
+    
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+
+  .dot {
+    height: 40px;
+    width: 40px;
+    background-color: #bbb;
+    border-radius: 50%;
+    float:right;
+    vertical-align: center !important;
+    transition: all 0.5s;
+    color:black !important;
+  }
+  .dot:hover {
+    background-color: green;
+  }
+
+  .icon{
+    padding-top:8px;
+    font-size:20px;
+    float:center !important;
+  }
+
+  body{
+    background-image:url("../imgs/sitebg.jpg");
+    background-size: 120%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+
+  .fixed{
+    position: sticky; top: 0;
+  }
+  
