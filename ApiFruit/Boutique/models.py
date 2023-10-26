@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import IntegerField, Model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.html import mark_safe
 
 # Create your models here.
 
@@ -9,9 +10,18 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Categorie(models.Model):
     nom=models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    img = models.CharField(max_length=255)
+    image = models.ImageField(upload_to="img/",null=True)
+
     def __str__(self):
         return self.nom
+    
+    def image_tag(self):
+        if(self.image != None):
+            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image))
+        else:
+            return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
+
+    image_tag.short_description = 'Image'
 
 class Produit(models.Model):
     nom_produit = models.CharField(max_length=255,null=False)
@@ -20,12 +30,30 @@ class Produit(models.Model):
     description_produit = models.CharField(max_length=255,null=True)
     poids = models.FloatField(validators=[MinValueValidator(0,"Le poid doit etre superrieur a 0")], default=0, null=False)
     prix = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
+    image = models.ImageField(upload_to="img/",null=True)
+
+    def image_tag(self):
+        if(self.image != None):
+            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image))
+        else:
+            return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
+
+    image_tag.short_description = 'Image'
+
     def __str__(self):
         return self.nom_produit
     
 class ProduitImg (models.Model):
     id_produit = models.IntegerField(validators=[MinValueValidator(0,"L'id doit etre superieur a 0")], null=False)
-    path = models.CharField(max_length=255, null=True)
+    image = models.ImageField(upload_to="img/")
+
+    def image_tag(self):
+        if(self.image != None):
+            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image))
+        else:
+            return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
+
+    image_tag.short_description = 'Image'
 
 class Promotion(models.Model):
     type_rabais = models.CharField(max_length=255,null=False)
