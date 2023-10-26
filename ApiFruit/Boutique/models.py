@@ -7,7 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 #Classe Catégorie
 class Categorie(models.Model):
-    nom=models.CharField(max_length=255)
+    nom = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     img = models.CharField(max_length=255)
     def __str__(self):
