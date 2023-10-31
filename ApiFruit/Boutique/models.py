@@ -5,7 +5,6 @@ from django.utils.html import mark_safe
 
 # Create your models here.
 
-
 #Classe Catégorie
 class Categorie(models.Model):
     nom = models.CharField(max_length=255)
@@ -70,6 +69,13 @@ class Commande(models.Model):
     commander = models.BooleanField(default=False)
     date_commander = models.DateTimeField(null=True)
     id_client = models.IntegerField(validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False)
+    produit = models.ManyToManyField(Produit)
+
+    def get_products(self):
+        if(self.produit.count != 0):
+            return "\n".join([produit.nom_produit for produit in self.produit.all()])
+
+    
     
 class Client(models.Model):
     nom_client = models.CharField(max_length=255,null=False)
@@ -81,3 +87,4 @@ class Client(models.Model):
     date_inscription = models.DateTimeField()
     def __str__(self):
         return self.prenom_client + " " + self.nom_client
+    

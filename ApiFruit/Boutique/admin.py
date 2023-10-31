@@ -33,9 +33,10 @@ class PromotionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Commande)
 class CommandeAdmin(admin.ModelAdmin):
-    list_display = ['id_client','commander','date_commander']
+    list_display = ['id_client','commander','date_commander','get_products']
     ordering = ['id_client']
     search_fields = ['id_client']
+
 
 @admin.register(models.Client)
 class Client(admin.ModelAdmin):
