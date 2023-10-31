@@ -1,53 +1,22 @@
 {% extends 'Base.html' %}
 {% block title %}
 <div style="text-align: center;width: auto; margin-top: 100px; margin-bottom: 30px;">
-    <h1><b>Produits</b></h1>
+    
 </div>
 {% endblock %}
 
 {% block contents %}
 <div class="container">
   <div class="row" >
-    
-    <div class="col col-sm-2 side-nav" style="background-color: gray; margin-top:10px;margin-bottom:40px;border-radius: 2%;">
-      <div class="recherche">
-        <form>
-          <div style="text-align: center">
-            <label style="font-size: 15px; font-weight: bold;" for="recherche">Recherchez un produit</label>
-            <div>
-              <input style="width:150px" name="recherche" type="text" placeholder="Rechercher..."></input>
-              <button>test</button>
-            </div>
-          </div>
-          
-        </form>
-      </div>
-      <div class="title">
-        <p>Catégories</p>
-      </div>
-      <div class="element">
-        {% for cat in categories %}
-          <a href="{% url 'categorie' cat.id %}">{{ cat.nom }}</a></br>
-        {% endfor %}
-      </div>
-      <div class="title">
-        <p>Filtre</p>
-      </div>
-      <div class="element">
-        <a href="#">Moins de 5$</a></br>
-        <a href="#">Rabais</a></br>
-      </div>
+    <div class="col col-sm-12" style="text-align: center;">
       
+      <p>test</p><img width="450px" src="../../media/img/halloween1.jpg" style="margin-bottom: 10px;"/>
+      </br></br>
+      <img width="450px" src="../../media/img/halloween2.png"/><p>test2</p>
+      
+     
     </div>
-    
-    <div class="col col-lg-10">
-      <div class="row" style="margin-bottom: 30px;">
-      
-      </div>
-    </div>
-  </div>
-      
-        
+  </div>      
 </div>
 
 

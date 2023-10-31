@@ -42,18 +42,6 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.nom_produit
-    
-class ProduitImg (models.Model):
-    id_produit = models.IntegerField(validators=[MinValueValidator(0,"L'id doit etre superieur a 0")], null=False)
-    image = models.ImageField(upload_to="img/")
-
-    def image_tag(self):
-        if(self.image != None):
-            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image))
-        else:
-            return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
-
-    image_tag.short_description = 'Image'
 
 class Promotion(models.Model):
     type_rabais = models.CharField(max_length=255,null=False)

@@ -17,11 +17,6 @@ class ProduitAdmin(admin.ModelAdmin):
     search_fields = ['nom_produit']
 
 
-@admin.register(models.ProduitImg)
-class ProduitImgAdmin(admin.ModelAdmin):
-    ordering = ['id_produit']
-    search_fields = ['id_produit']
-    list_display = ['image_tag'] 
 
 
 @admin.register(models.Promotion)

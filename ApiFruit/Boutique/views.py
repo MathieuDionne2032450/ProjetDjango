@@ -26,6 +26,16 @@ def Fruits(request,id):
     }
 
     return render(request,'fruits.html',context)
+
+def Categories(request):
+
+    categories = models.Categorie.objects.all()
+    
+    context = {
+        'categories':categories
+    }
+
+    return render(request,'categories.html',context)
    
 
 
@@ -74,10 +84,6 @@ def Peupler(request):
     for p in produits:
         p.delete()
 
-    imagesproduits = models.ProduitImg.objects.all()
-    for ip in imagesproduits:
-        ip.delete()
-
     categories = models.Categorie.objects.all()
     for c in categories:
         c.delete()
@@ -87,19 +93,19 @@ def Peupler(request):
     #-----------------------------                     CATÉGORIES                     --------------------------------#
     #-----------------------------------------------------------------------------------------------------------------#
     #-----------------------------------------------------------------------------------------------------------------#
-    Standard = models.Categorie(nom="Standard",description="Tous les produits qui n'ont rien de particulier",image="fruits_standard_categorie.jpeg")
+    Standard = models.Categorie(nom="Standard",description="Tous les produits qui n'ont rien de particulier",image="fruits_normal_categorie.jpg")
     Standard.save()
 
-    Exotique = models.Categorie(nom="Exotique",description="Tous les produits qui n'ont rien de particulier",image="fruits_exotique_categorie.jpeg")
+    Exotique = models.Categorie(nom="Exotique",description="Tous les produits qui n'ont rien de particulier",image="fruits_normal_categorie.jpg")
     Exotique.save()
 
-    Local = models.Categorie(nom="Local",description="Tous les produits qui n'ont rien de particulier",image="fruits_local_categorie.jpeg")
+    Local = models.Categorie(nom="Local",description="Tous les produits qui n'ont rien de particulier",image="fruits_normal_categorie.jpg")
     Local.save()
 
-    Surgelé = models.Categorie(nom="Surgelé",description="Tous les produits qui n'ont rien de particulier",image="fruits_surgele_categorie.jpeg")
+    Surgelé = models.Categorie(nom="Surgelé",description="Tous les produits qui n'ont rien de particulier",image="fruits_normal_categorie.jpg")
     Surgelé.save()
 
-    Bio = models.Categorie(nom="Bio",description="Produit Bio et qui gouttent la terre!",image="fruits_bio_categorie.jpeg")
+    Bio = models.Categorie(nom="Bio",description="Produit Bio et qui gouttent la terre!",image="fruits_normal_categorie.jpg")
     Bio.save()
 
     #-----------------------------------------------------------------------------------------------------------------#
@@ -178,3 +184,12 @@ def Peupler(request):
 
     prod4 = models.Produit(nom_produit="Mini melon d'eau sans pépins",description_produit="1 fruit",prix=5.99,quantite_stock=72, poids=5400,categorie=Standard,image="watermelon.jpg")
     prod4.save()
+
+
+    categories = models.Categorie.objects.all()
+
+    context = {
+        'categories':categories,
+    }
+
+    return render(request,'accueil.html',context)

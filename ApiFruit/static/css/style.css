@@ -40,7 +40,7 @@ background-color: #E53935
   }
   .bg-image {
     /* The image used */
-    background-image: url("../imgs/bg1.jpg");
+    background-image: url("../../media/img/bg1.jpg");
   
     /* Add the blur effect */
     filter: blur(6px);
@@ -145,7 +145,7 @@ background-color: #E53935
   }
 
   body{
-    background-image:url("../imgs/sitebg.jpg");
+    background-image:url("../../media/img/sitebg.jpg");
     background-size: 120%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -156,3 +156,7 @@ background-color: #E53935
     position: sticky; top: 0;
   }
   
+  a{
+    text-decoration: none !important;
+
+  }
