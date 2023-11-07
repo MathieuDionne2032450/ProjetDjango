@@ -160,3 +160,19 @@ background-color: #E53935
     text-decoration: none !important;
 
   }
+  p span{
+    color:orangered;
+  }
+
+  .rabais{
+    transform: rotate(-45deg);
+    position: absolute;
+    background-color: #E53935;
+    text-align: center;
+    width:80px;
+    left:-30px;
+    border-radius: 3px;
+    border-color: #263238;
+    border-width: 2px;
+    border-style: ridge;
+  }

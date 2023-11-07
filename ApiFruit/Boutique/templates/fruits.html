@@ -1,7 +1,7 @@
 {% extends 'Base.html' %}
 {% block title %}
 <div style="text-align: center;width: auto; margin-top: 100px; margin-bottom: 30px;">
-    <h1><b>Produits</b></h1>
+    <h1><b>Produits - {{ categorienom }}</b></h1>
 </div>
 {% endblock %}
 
@@ -45,6 +45,12 @@
       {% for produit in produits %}
         {% if produit.categorie.id == categorie %}
             <div class="card" style="width: 15rem;margin:7px;">
+              <div style="position: relative;">
+                
+                    <div class="rabais"><h3>-15 %</h3></div>
+                  
+              </div>
+                
                 <img class="card-img-top" src="{{ produit.image.url }}" alt="Card image cap" style="margin-top: 5px; height: 180px;">
                 <div class="card-body">
                     <div style="height:120px">
