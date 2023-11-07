@@ -22,14 +22,35 @@ class Categorie(models.Model):
 
     image_tag.short_description = 'Image'
 
+class Promotion(models.Model):
+
+    select_type_rabais = (('%','Pourcentage'),('$','Unitaire'))
+    type_rabais = models.CharField(max_length=255,null=False,choices=select_type_rabais)
+    valeur = models.IntegerField(validators=[MinValueValidator(0,"La valeur doit etre superieur a 0")],null=False)
+    description_promotion = models.CharField(max_length=255,null=True)
+    #Fonction pour que les promo s'ajuste automatiquement PAS TERMINER
+    #promo_sujet = models.CharField(max_length=255)
+    #select_Promo_sujet = (
+     #   ('Categorie'),
+      #  ('Prix'),
+       # ('Description'),
+    #)
+    def __str__(self):
+        return self.description_promotion
+    
+    
+
+
+
 class Produit(models.Model):
     nom_produit = models.CharField(max_length=255,null=False)
     quantite_stock = models.IntegerField(validators=[MinValueValidator(0,"La quantite doit etre superrieur a 0")], default=0, null=False)
-    categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE,null=True)
+    categorie = models.ForeignKey(Categorie, on_delete=models.PROTECT,null=False,default=Categorie.objects.filter(id=1).first())
     description_produit = models.CharField(max_length=255,null=True)
     poids = models.FloatField(validators=[MinValueValidator(0,"Le poid doit etre superrieur a 0")], default=0, null=False)
-    prix = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
+    prixBase = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
     image = models.ImageField(upload_to="img/",null=True)
+    promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True)
 
     def image_tag(self):
         if(self.image != None):
@@ -41,27 +62,39 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.nom_produit
+    
+    def PrixFinal(self):
+        prixFinal = 0
+        if(self.promotion != None):
+            if(self.promotion.type_rabais == '%'):
+                prixFinal = (self.prixBase*(100-self.promotion.valeur))/100
+            if(self.promotion.type_rabais == '$'):
+                prixFinal = self.prixBase - self.promotion.valeur
+        else:
+            prixFinal=self.prixBase
 
-class Promotion(models.Model):
-    type_rabais = models.CharField(max_length=255,null=False)
-    valeur = models.IntegerField(validators=[MinValueValidator(0,"La valeur doit etre superieur a 0")],null=False)
-    description_promotion = models.CharField(max_length=255,null=True)
-    produit_touche = models.ManyToManyField(Produit)
-    def nombre_produit_promu(self):
-        return self.produit_touche.count()
-    def __str__(self):
-        return self.description_promotion
+        return prixFinal
+
+        
+class ProduitImage(models.Model):
+    name = models.CharField(max_length=255)
+    le_produit = models.ForeignKey(Produit,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="img/",null=True)
+    
+    def all(idProduit):
+       return ProduitImage.objects.filter(id = idProduit)
+
 
 class Commande(models.Model):
     #determine si la commande est dans le panier ou si elle est paye et en cours de livraison
     commander = models.BooleanField(default=False)
     date_commander = models.DateTimeField(null=True)
     id_client = models.IntegerField(validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False)
-    produit = models.ManyToManyField(Produit)
+    produit = models.ManyToManyField(Produit,)
 
     def get_products(self):
         if(self.produit.count != 0):
-            return "\n".join([produit.nom_produit for produit in self.produit.all()])
+            return ",\n".join([produit.nom_produit for produit in self.produit.all()])
 
     
     

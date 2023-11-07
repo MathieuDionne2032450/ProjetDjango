@@ -12,7 +12,7 @@ class CategorieAdmin(admin.ModelAdmin):
 
 @admin.register(models.Produit)
 class ProduitAdmin(admin.ModelAdmin):
-    list_display = ['nom_produit','categorie','description_produit','quantite_stock','poids','prix','image_tag']
+    list_display = ['id','image_tag','nom_produit','categorie','description_produit','quantite_stock','poids','prixBase','promotion',"PrixFinal"]
     ordering = ['nom_produit']
     search_fields = ['nom_produit']
 
@@ -21,7 +21,7 @@ class ProduitAdmin(admin.ModelAdmin):
 
 @admin.register(models.Promotion)
 class PromotionAdmin(admin.ModelAdmin):
-    list_display = ['description_promotion','type_rabais','valeur','nombre_produit_promu']
+    list_display = ['description_promotion','type_rabais','valeur']
     ordering = ['valeur']
     search_fields = ['description_promotion']
 
@@ -32,6 +32,11 @@ class CommandeAdmin(admin.ModelAdmin):
     ordering = ['id_client']
     search_fields = ['id_client']
 
+@admin.register(models.ProduitImage)
+class ProduitImageAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    ordering = ['name']
+    search_fields = ['name']
 
 @admin.register(models.Client)
 class Client(admin.ModelAdmin):
