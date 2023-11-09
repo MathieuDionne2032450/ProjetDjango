@@ -12,7 +12,8 @@ class CategorieAdmin(admin.ModelAdmin):
 
 @admin.register(models.Produit)
 class ProduitAdmin(admin.ModelAdmin):
-    list_display = ['id','image_tag','nom_produit','categorie','description_produit','quantite_stock','poids','prixBase','promotion',"PrixFinal"]
+    
+    list_display = ['image_tag','nom_produit','categorie','description_produit','quantite_stock','poids','prixBase','promotion',"PrixFinal"]
     ordering = ['nom_produit']
     search_fields = ['nom_produit']
 
@@ -34,7 +35,7 @@ class CommandeAdmin(admin.ModelAdmin):
 
 @admin.register(models.ProduitImage)
 class ProduitImageAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['image_tag','name']
     ordering = ['name']
     search_fields = ['name']
 

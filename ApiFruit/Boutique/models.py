@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import IntegerField, Model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.html import mark_safe
+from django.db.models import Count
 
 # Create your models here.
 
@@ -49,12 +50,14 @@ class Produit(models.Model):
     description_produit = models.CharField(max_length=255,null=True)
     poids = models.FloatField(validators=[MinValueValidator(0,"Le poid doit etre superrieur a 0")], default=0, null=False)
     prixBase = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
-    image = models.ImageField(upload_to="img/",null=True)
     promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True)
 
+    def image_default(self):
+        return self.images.order_by('ordre').first().image
+
     def image_tag(self):
-        if(self.image != None):
-            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image))
+        if(self.images.count() > 0):
+            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image_default()))
         else:
             return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
 
@@ -74,15 +77,25 @@ class Produit(models.Model):
             prixFinal=self.prixBase
 
         return prixFinal
+    
+        
 
         
 class ProduitImage(models.Model):
     name = models.CharField(max_length=255)
-    le_produit = models.ForeignKey(Produit,on_delete=models.CASCADE)
+    le_produit = models.ForeignKey(Produit,on_delete=models.CASCADE,related_name='images')
     image = models.ImageField(upload_to="img/",null=True)
+    ordre = models.IntegerField(default=0,null=False)
+
+    def image_tag(self):
+        if(self.image != None):
+            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image))
+        else:
+            return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
+
+    image_tag.short_description = 'Image'
     
-    def all(idProduit):
-       return ProduitImage.objects.filter(id = idProduit)
+    
 
 
 class Commande(models.Model):
