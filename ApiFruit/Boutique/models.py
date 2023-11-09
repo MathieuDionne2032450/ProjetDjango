@@ -29,6 +29,8 @@ class Promotion(models.Model):
     type_rabais = models.CharField(max_length=255,null=False,choices=select_type_rabais)
     valeur = models.IntegerField(validators=[MinValueValidator(0,"La valeur doit etre superieur a 0")],null=False)
     description_promotion = models.CharField(max_length=255,null=True)
+    #date_debut = models.DateField(null=False,default=date.today)
+    #date_fin = models.DateField()
     #Fonction pour que les promo s'ajuste automatiquement PAS TERMINER
     #promo_sujet = models.CharField(max_length=255)
     #select_Promo_sujet = (
@@ -50,7 +52,7 @@ class Produit(models.Model):
     description_produit = models.CharField(max_length=255,null=True)
     poids = models.FloatField(validators=[MinValueValidator(0,"Le poid doit etre superrieur a 0")], default=0, null=False)
     prixBase = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
-    promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True)
+    promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True,blank=True)
 
     def image_default(self):
         return self.images.order_by('ordre').first().image
@@ -85,7 +87,7 @@ class ProduitImage(models.Model):
     name = models.CharField(max_length=255)
     le_produit = models.ForeignKey(Produit,on_delete=models.CASCADE,related_name='images')
     image = models.ImageField(upload_to="img/",null=True)
-    ordre = models.IntegerField(default=0,null=False)
+    ordre = models.IntegerField(default=0,null=False,validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")])
 
     def image_tag(self):
         if(self.image != None):
@@ -94,21 +96,9 @@ class ProduitImage(models.Model):
             return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
 
     image_tag.short_description = 'Image'
-    
-    
 
-
-class Commande(models.Model):
-    #determine si la commande est dans le panier ou si elle est paye et en cours de livraison
-    commander = models.BooleanField(default=False)
-    date_commander = models.DateTimeField(null=True)
-    id_client = models.IntegerField(validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False)
-    produit = models.ManyToManyField(Produit,)
-
-    def get_products(self):
-        if(self.produit.count != 0):
-            return ",\n".join([produit.nom_produit for produit in self.produit.all()])
-
+    def __str__(self):
+        return self.name
     
     
 class Client(models.Model):
@@ -121,4 +111,23 @@ class Client(models.Model):
     date_inscription = models.DateTimeField()
     def __str__(self):
         return self.prenom_client + " " + self.nom_client
+
+class Commande(models.Model):
+    #determine si la commande est dans le panier ou si elle est paye et en cours de livraison
+    commander = models.BooleanField(default=False)
+    date_commander = models.DateTimeField(null=True)
+    client = models.ForeignKey(Client,on_delete=models.CASCADE,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1,related_name='CommandeClient')
+    produit = models.ManyToManyField(Produit,)
+
+    def get_products(self):
+        if(self.produit.count != 0):
+            return ",\n".join([produit.nom_produit for produit in self.produit.all()])
+        
+    def __str__(self):
+        return 'Commande '+ self.id.__str__() + ' :' + self.client.__str__()
+        
+
+    
+    
+
     
