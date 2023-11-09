@@ -3,12 +3,17 @@ from django.template import loader
 from . import models
 from django.http import HttpResponse
 
+
 # Create your views here.
 def Accueil(request):
     categories = models.Categorie.objects.all()
-
+    produits = models.Produit.objects.filter(promotion__isnull=False)
+    rabais = models.Promotion.objects.all()
+    
     context = {
+        'rabais':rabais,
         'categories':categories,
+        'produits':produits
     }
 
     return render(request,'accueil.html',context)
@@ -41,7 +46,14 @@ def Categories(request):
     return render(request,'categories.html',context)
    
 
+def NotreEquipe(request):
+    
+    
+    context = {
+        
+    }
 
+    return render(request,'NotreEquipe.html',context)
 
 
 

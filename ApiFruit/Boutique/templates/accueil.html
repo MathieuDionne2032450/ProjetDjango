@@ -26,7 +26,46 @@
       <p style="font-weight: 800; font-size: 40px;vertical-align: middle;display:table-cell">La super Chasse au citrouilles aura lieu le <span>3 Novembre 2019</span> prochain au 3845 rue des Poiles! Venez en grand nombre</p>
     </div>
   </div>  
-      
+
+  <div class="col col-lg-12" style="text-align: center;margin-bottom: 30px;">
+    <h2 style="font-weight: 800;">Nos Rabais</h2>
+  </div>
+  <div class="col col-lg-12">
+    <div class="row" style="margin-bottom: 30px;">
+    {% for produit in produits %}
+          <div class="card" style="width: 15rem;margin:7px;">
+            
+            <div style="position: relative;">
+              {% for r in rabais %}
+                {% if produit.promotion.id == r.id %}
+                  <div class="rabais"><h3>{{r.valeur}} {{r.type_rabais}}</h3></div>
+                {% endif %}
+              {% endfor %}
+            </div>
+              
+              <img class="card-img-top" src="{{ produit.image.url }}" alt="Card image cap" style="margin-top: 5px; height: 180px;">
+              
+              <div class="card-body">
+                  <div style="height:120px">
+                    <h4 class="card-title"><b>{{produit.nom_produit}}</b></h4>
+                  </div>
+
+                  <div style="height:60px">
+                    <h6 class="card-title">{{produit.description_produit}} (environ {{produit.poids}} g)</h6>
+                  </div>
+                  
+                    
+                    <h6 class="card-title" style="text-decoration: line-through;">{{produit.prixBase}} $</h6>
+                    <h6 class="card-title" style="font-weight: bolder;">{{produit.PrixFinal}} $</h6>
+                  
+                  
+                  <a class="dot" href="#"><i class="fa-solid fa-cart-plus icon" style></i></a>
+              </div>
+
+          </div>
+      {% endfor %}
+    </div>
+  </div>
   
       
      

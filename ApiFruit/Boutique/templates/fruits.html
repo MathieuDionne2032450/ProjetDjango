@@ -16,7 +16,7 @@
             <label style="font-size: 15px; font-weight: bold;" for="recherche">Recherchez un produit</label>
             <div>
               <input style="width:150px" name="recherche" type="text" placeholder="Rechercher..."></input>
-              <button>test</button>
+              <button>À FAIRE</button>
             </div>
           </div>
           
@@ -45,26 +45,37 @@
       {% for produit in produits %}
         {% if produit.categorie.id == categorie %}
             <div class="card" style="width: 15rem;margin:7px;">
+              
               <div style="position: relative;">
-                
-                    <div class="rabais"><h3>-15 %</h3></div>
-                  
+                {% for r in rabais %}
+                  {% if produit.promotion.id == r.id %}
+                    <div class="rabais"><h3>{{r.valeur}} {{r.type_rabais}}</h3></div>
+                  {% endif %}
+                {% endfor %}
               </div>
                 
                 <img class="card-img-top" src="{{ produit.image.url }}" alt="Card image cap" style="margin-top: 5px; height: 180px;">
+                
                 <div class="card-body">
                     <div style="height:120px">
                       <h4 class="card-title"><b>{{produit.nom_produit}}</b></h4>
                     </div>
+
                     <div style="height:60px">
                       <h6 class="card-title">{{produit.description_produit}} (environ {{produit.poids}} g)</h6>
                     </div>
                     
-                    <h6 class="card-title">{{produit.prix}} $</h6>
-                    <a class="dot" href="#"><i class="fa-solid fa-cart-plus icon" style></i></a>
+                      {% if produit.prixBase == produit.PrixFinal %}
+                        <h6 class="card-title" >{{produit.prixBase}} $</h6>
+                      {% else %}
+                      <h6 class="card-title" style="text-decoration: line-through;">{{produit.prixBase}} $</h6>
+                      <h6 class="card-title" style="font-weight: bolder;">{{produit.PrixFinal}} $</h6>
+                      {% endif %}
                     
-                  
+                    
+                    <a class="dot" href="#"><i class="fa-solid fa-cart-plus icon" style></i></a>
                 </div>
+
             </div>
             {% endif %}
         {% endfor %}
