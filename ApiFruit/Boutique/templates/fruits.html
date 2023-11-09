@@ -1,11 +1,13 @@
 {% extends 'Base.html' %}
 {% block title %}
+
 <div style="text-align: center;width: auto; margin-top: 100px; margin-bottom: 30px;">
     <h1><b>Produits - {{ categorienom }}</b></h1>
 </div>
 {% endblock %}
 
 {% block contents %}
+{% load static %}
 <div class="container">
   <div class="row" >
     
@@ -53,8 +55,12 @@
                   {% endif %}
                 {% endfor %}
               </div>
-                
-                <img class="card-img-top" src="{{ produit.image.url }}" alt="Card image cap" style="margin-top: 5px; height: 180px;">
+              
+              {% if produit.image_default is None %}
+              <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="Card image cap" style="margin-top: 5px; height: 180px;">              
+              {% else %}
+              <img class="card-img-top" src="{{ produit.image_default.url }}" alt="Card image cap" style="margin-top: 5px; height: 180px;">
+              {% endif %}
                 
                 <div class="card-body">
                     <div style="height:120px">

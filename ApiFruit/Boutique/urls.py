@@ -7,6 +7,4 @@ urlpatterns = [
     path('categories/', views.Categories, name='categories'),
     path('peupler/', views.Peupler, name='peupler'),
     path('NotreEquipe/', views.NotreEquipe, name='NotreEquipe'),
-    
-
 ]

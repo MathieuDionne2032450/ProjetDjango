@@ -54,12 +54,15 @@ class Produit(models.Model):
     prixBase = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
     promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True,blank=True)
 
+    @property
     def image_default(self):
-        return self.images.order_by('ordre').first().image
+        if (self.images.count() > 0):
+            return self.images.order_by('ordre').first().image
+        return None
 
     def image_tag(self):
         if(self.images.count() > 0):
-            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image_default()))
+            return mark_safe('<img src="/media/%s" alt="aucune image n\'a été sélectionner" height="40" />' % (self.image_default))
         else:
             return mark_safe('<img src="/media/img/default.jpg" alt="aucune image n\'a été sélectionner"  height="40" />')
 
