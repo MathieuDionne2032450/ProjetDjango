@@ -16,15 +16,17 @@ class ProduitAdmin(admin.ModelAdmin):
     list_display = ['image_tag','nom_produit','categorie','description_produit','quantite_stock','poids','prixBase','promotion',"PrixFinal"]
     ordering = ['nom_produit']
     search_fields = ['nom_produit']
+    list_filter = ['categorie']
 
 
 
 
 @admin.register(models.Promotion)
 class PromotionAdmin(admin.ModelAdmin):
-    list_display = ['description_promotion','type_rabais','valeur']
+    list_display = ['description_promotion','type_rabais','valeur','valide']
     ordering = ['valeur']
     search_fields = ['description_promotion']
+    list_filter = ['promo_valide']
 
 
 @admin.register(models.Commande)
@@ -44,7 +46,5 @@ class Client(admin.ModelAdmin):
     list_display = ['nom_client','prenom_client','mot_de_passe','adresse','courriel','num_telephone','date_inscription']
     ordering = ['nom_client']
     search_fields = ['nom_client','prenom_client']
-
-
 
 

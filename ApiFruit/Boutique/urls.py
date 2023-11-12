@@ -3,10 +3,12 @@ from . import views
 
 urlpatterns = [
     path('', views.Accueil, name='accueil'),
+    path('fruits/', views.Fruits, name='recherche'),
     path('categorie/<int:id_>/', views.Fruits, name='categorie'),
     path('categories/', views.Categories, name='categories'),
     path('peupler/', views.Peupler, name='peupler'),
     path('notreequipe/', views.NotreEquipe, name='NotreEquipe'),
     path('fruit/<int:id_>/', views.Fruit, name='fruit'),
+    path('NousJoindre/',views.SendEmail,name='NousJoindre')
 
 ]

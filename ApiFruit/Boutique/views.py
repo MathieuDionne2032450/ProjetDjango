@@ -23,7 +23,9 @@ def Fruit(request,id_):
 
 # Create your views here.
 def Accueil(request):
+    
     categories = models.Categorie.objects.all()
+    promotion_non_valide(models.Produit.objects.all())
     produits = models.Produit.objects.filter(promotion__isnull=False)
     rabais = models.Promotion.objects.all()
     
@@ -38,10 +40,18 @@ def Accueil(request):
 
 def Fruits(request,id_):
     
+
+
     produits = models.Produit.objects.all()
+    promotion_non_valide(produits)
     categories = models.Categorie.objects.all()
     nomCat = models.Categorie.objects.get(id = id_).nom
     rabais = models.Promotion.objects.all()
+
+    if request.method == "POST":
+        if request.POST['recherche'] != "":
+            produits = models.Produit.objects.filter(nom_produit__icontains = request.POST['recherche'])
+
     context = {
         'produits':produits,
         'categories':categories,
@@ -93,7 +103,13 @@ def SendEmail(request):
 
 
 
-
+def promotion_non_valide(produits):
+    for p in produits:
+        if (p.promotion != None and p.promotion.valide == False):
+            p.promotion = None
+            p.save()
+            
+    
 
 
 

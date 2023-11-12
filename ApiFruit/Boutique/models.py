@@ -3,6 +3,7 @@ from django.db.models import IntegerField, Model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.html import mark_safe
 from django.db.models import Count
+import datetime
 
 # Create your models here.
 
@@ -29,8 +30,9 @@ class Promotion(models.Model):
     type_rabais = models.CharField(max_length=255,null=False,choices=select_type_rabais)
     valeur = models.IntegerField(validators=[MinValueValidator(0,"La valeur doit etre superieur a 0")],null=False)
     description_promotion = models.CharField(max_length=255,null=True)
-    #date_debut = models.DateField(null=False,default=date.today)
-    #date_fin = models.DateField()
+    date_debut = models.DateField(null = True)
+    date_fin = models.DateField(null = True)
+    promo_valide = models.BooleanField(null=True)
     #Fonction pour que les promo s'ajuste automatiquement PAS TERMINER
     #promo_sujet = models.CharField(max_length=255)
     #select_Promo_sujet = (
@@ -38,6 +40,16 @@ class Promotion(models.Model):
       #  ('Prix'),
        # ('Description'),
     #)
+    @property
+    def valide(self):
+        if (self.date_debut > datetime.date.today() or self.date_fin < datetime.date.today()):
+            self.promo_valide = False
+            self.save()
+            return False
+        self.promo_valide = True
+        self.save()
+        return True
+
     def __str__(self):
         return self.description_promotion
     
@@ -72,6 +84,11 @@ class Produit(models.Model):
         return self.nom_produit
     
     def PrixFinal(self):
+        
+        if (self.promotion != None and self.promotion.valide == False):
+            self.promotion = None
+            self.save()
+            
         prixFinal = 0
         if(self.promotion != None):
             if(self.promotion.type_rabais == '%'):

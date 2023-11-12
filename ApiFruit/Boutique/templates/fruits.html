@@ -14,11 +14,11 @@
     <div class="col col-sm-2 side-nav" style="background-color: gray; margin-top:10px;margin-bottom:40px;border-radius: 2%;">
       <div class="recherche">
         
-        <form action="#" method="get">
+        <form action="" method="post">{% csrf_token %}
           <div style="text-align: center">
             <div style="display: inline-block;">
               <input style="width:150px; float:left; height:40px;" name="recherche" type="text" placeholder="Rechercher..."></input>
-              <intput style=" float:left; height:40px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button style=" float:left; height:40px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
           </div>
         </form>
@@ -58,7 +58,7 @@
               <a href="../../fruit/{{produit.id}}"> 
               <div style="position: relative;">
                 {% for r in rabais %}
-                  {% if produit.promotion.id == r.id %}
+                  {% if produit.promotion.id == r.id%}
                     <div class="rabais"><h3>{{r.valeur}} {{r.type_rabais}}</h3></div>
                   {% endif %}
                 {% endfor %}
