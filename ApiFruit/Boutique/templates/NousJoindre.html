@@ -1,0 +1,22 @@
+{% extends 'Base.html' %}
+{% block title %}
+<div style="text-align: center;width: auto; margin-top: 100px; margin-bottom: 30px;">
+    
+</div>
+{% endblock %}
+
+{% block contents %}
+<div style="margin: 20px;">
+<form action="" method="post">{% csrf_token %}
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Sujet</label>
+    <input type="text" class="form-control" name="Sujet" placeholder="Sujet du message">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Texte</label>
+    <textarea class="form-control" name="Text" placeholder="Mettre votre adresse courriel pour que l'on puisse vous repondre directement"></textarea>
+  </div>
+  <input type="submit">
+</form>
+</div>
+{% endblock %}

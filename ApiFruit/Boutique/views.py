@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.template import loader
 from . import models
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -58,7 +60,21 @@ def NotreEquipe(request):
 
 
 
+def SendEmail(request):
 
+    if request.method == "POST":
+        if(request.POST['Sujet'] != "" and request.POST['Text'] != ""):
+            print("test")
+            send_mail(
+            request.POST['Sujet'],
+            request.POST['Text'],
+            "dionne.mathieu@outlook.com",
+            ["2032450@etu.cchic.ca"],
+            fail_silently=False,
+            )
+        
+    context={}
+    return render(request,'NousJoindre.html',context)
 
 
 
