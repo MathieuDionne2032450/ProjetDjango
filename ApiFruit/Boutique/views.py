@@ -14,6 +14,7 @@ def Fruit(request,id_):
     fruit = models.Produit.objects.filter(id=id_).first()
     
     
+    
     context = {
         'fruit': fruit,
         
@@ -28,11 +29,12 @@ def Accueil(request):
     promotion_non_valide(models.Produit.objects.all())
     produits = models.Produit.objects.filter(promotion__isnull=False)
     rabais = models.Promotion.objects.all()
-    
+    produitscompte = produits.__len__
     context = {
         'rabais':rabais,
         'categories':categories,
-        'produits':produits
+        'produits':produits,
+        'produitscompte':produitscompte,
     }
 
     return render(request,'accueil.html',context)
