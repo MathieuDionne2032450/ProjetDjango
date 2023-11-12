@@ -6,19 +6,60 @@
 </div>
 {% endblock %}
 {% block contents %}
+{% load static %}
+<div class="container" style="background-color: lightgray; padding: 10px;margin-bottom: 300px;">
+    <div class="row" >
+        <div class="col col-lg-1 col-sm-1 col-md-1"></div>
+        <div class="col col-lg-4 col-sm-4 col-md-4">
+            
+            <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" style=" text-align: center;">
+                    
+                    {% if fruit.image_default is None %}
+                    <div class="carousel-item active">
+                        <img width="200px" src="{% static 'img/default.jpg' %}" alt="first slide"/>
+                    </div>
+                    {% else %}
+                    <div class="carousel-item active">
+                        <img width="200px" src="{{ fruit.image_default.url }}" alt="first slide"/>
+                    </div>
+                    {% endif %}
 
-<div class="container">
-    <div class="row" style="margin-bottom: 30px;">
-        <div class="col col-lg-5 col-sm-5 col-md-5">
-            <img width="400px" src="{{ fruit.image_default.url }}"/>
+
+                    {% for img in fruit.image_else %} 
+                        <div class="carousel-item">
+                            <img  width="200px" src="{{ img.image.url }}" alt="Second slide">
+                        </div>
+                    {% endfor %}
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            
+            </div>
         </div>
-        <div class="col col-lg-7">
+        <div class="col col-lg-6 col-sm-6 col-md-6">
             <h2> Catégorie : {{ fruit.categorie }}</h2>
             <h2> Description : {{ fruit.description_produit }}</h2>
             <h2> Poids : {{ fruit.poids }}g</h2>
-            <div style="display:inline-flex;" width="200px">
-                <p > prix : </p><p style="text-decoration: line-through;">{{ fruit.prixBase }}</p><p style="color:green;">    {{ fruit.PrixFinal }}$</p>
-            </div></br></br></br>
+
+
+            {% if fruit.PrixFinal == fruit.prixBase %}
+            
+            <h2> prix : <span style="color:green">{{ fruit.prixBase }}$</span></h2>
+            
+            {% else %}
+
+            <h2> prix : <span style="text-decoration: line-through;">{{ fruit.prixBase }}$</span><span style="color:green"> {{ fruit.PrixFinal }}$ </span></h2>
+
+            {% endif %}
+
+            </br></br></br>
             <button class="btn btn-success">Ajouter au panier</h2>
         </div>
     </div>

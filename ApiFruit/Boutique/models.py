@@ -59,6 +59,12 @@ class Produit(models.Model):
         if (self.images.count() > 0):
             return self.images.order_by('ordre').first().image
         return None
+    
+    @property
+    def image_else(self):
+        if (self.images.count() > 0):
+            return self.images.order_by('ordre').exclude(ordre=0)
+        return None
 
     def image_tag(self):
         if(self.images.count() > 0):
@@ -81,7 +87,7 @@ class Produit(models.Model):
         else:
             prixFinal=self.prixBase
 
-        return prixFinal
+        return round(prixFinal,2)
     
         
 
