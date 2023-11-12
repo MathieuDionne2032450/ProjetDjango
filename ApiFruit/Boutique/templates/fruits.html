@@ -13,23 +13,29 @@
     
     <div class="col col-sm-2 side-nav" style="background-color: gray; margin-top:10px;margin-bottom:40px;border-radius: 2%;">
       <div class="recherche">
-        <form>
+        
+        <form action="#" method="get">
           <div style="text-align: center">
-            <label style="font-size: 15px; font-weight: bold;" for="recherche">Recherchez un produit</label>
-            <div>
-              <input style="width:150px" name="recherche" type="text" placeholder="Rechercher..."></input>
-              <button>À FAIRE</button>
+            <div style="display: inline-block;">
+              <input style="width:150px; float:left; height:40px;" name="recherche" type="text" placeholder="Rechercher..."></input>
+              <intput style=" float:left; height:40px;" type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
           </div>
-          
         </form>
+
+        
+      
       </div>
       <div class="title">
         <p>Catégories</p>
       </div>
       <div class="element">
         {% for cat in categories %}
-          <a href="{% url 'categorie' cat.id %}">{{ cat.nom }}</a></br>
+          {% if cat.nom == categorienom %}
+            <a href="{% url 'categorie' cat.id %}" style="color:white !important; font-weight: 800;">{{ cat.nom }}</a></br>
+          {% else %}
+            <a href="{% url 'categorie' cat.id %} " style="color:black !important; font-weight: 600;">{{ cat.nom }}</a></br>
+          {% endif %}
         {% endfor %}
       </div>
       <div class="title">
@@ -45,9 +51,11 @@
     <div class="col col-lg-10">
       <div class="row" style="margin-bottom: 30px;">
       {% for produit in produits %}
-        {% if produit.categorie.id == categorie %}
+        {% if produit.categorie.id == categorie or categorienom == "Tout" %}
+            
+          
             <div class="card" style="width: 15rem;margin:7px;">
-              
+              <a href="../../fruit/{{produit.id}}"> 
               <div style="position: relative;">
                 {% for r in rabais %}
                   {% if produit.promotion.id == r.id %}
@@ -81,8 +89,9 @@
                     
                     <a class="dot" href="#"><i class="fa-solid fa-cart-plus icon" style></i></a>
                 </div>
-
-            </div>
+              </a>
+              </div>
+            
             {% endif %}
         {% endfor %}
       </div>

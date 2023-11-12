@@ -4,6 +4,21 @@ from . import models
 from django.http import HttpResponse
 
 
+
+
+
+def Fruit(request,id_):
+    
+    fruit = models.Produit.objects.filter(id=id_).first()
+    
+    
+    context = {
+        'fruit': fruit,
+        
+    }
+
+    return render(request,'fruit.html',context)
+
 # Create your views here.
 def Accueil(request):
     categories = models.Categorie.objects.all()
@@ -108,8 +123,14 @@ def Peupler(request):
     #-----------------------------                     CATÉGORIES                     --------------------------------#
     #-----------------------------------------------------------------------------------------------------------------#
     #-----------------------------------------------------------------------------------------------------------------#
+    
+    Tout = models.Categorie(nom="Tout",description="Tous les produits",image="img/tout.jpg")
+    Tout.save()
+
     Standard = models.Categorie(nom="Standard",description="Tous les produits qui n'ont rien de particulier",image="img/fruits_normal_categorie.jpg")
     Standard.save()
+
+    
 
     Exotique = models.Categorie(nom="Exotique",description="Tous les produits qui n'ont rien de particulier",image="img/exotique.jpeg")
     Exotique.save()

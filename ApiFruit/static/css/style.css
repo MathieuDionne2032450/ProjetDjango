@@ -37,6 +37,7 @@ background-color: #E53935
   .imgtop{
     height:500px;
     width: 100%;
+    margin-bottom: 200px;
   }
   .bg-image {
     /* The image used */
@@ -158,8 +159,8 @@ background-color: #E53935
   
   a{
     text-decoration: none !important;
-
   }
+  
   p span{
     color:orangered;
   }

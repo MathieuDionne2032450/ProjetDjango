@@ -1,3 +1,68 @@
-<li>
-    <a href="https://github.com/Alexandre1832686" class="text-white">Github - Alexandre</a>
-</li>
+{% extends 'Base.html' %}
+{% block title %}
+
+<div style="text-align: center;width: auto; margin-top: 100px; margin-bottom: 30px;">
+    <h1><b>Notre équipe</b></h1>
+</div>
+{% endblock %}
+
+{% block contents %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-3 col-sm-6 mb-5">
+      <div class="ts-team-wrapper">
+        <div class="team-img-wrapper">
+          <img loading="lazy" src="../static/img/math.png" style="height:500px" class="img-fluid" alt="team-img">
+        </div>
+        <div class="ts-team-content-classic">
+          <h3 class="ts-name">Mathieu Dionne</h3>
+          <p class="ts-designation">Programmeur (Légende)</p>
+          <p class="ts-description">Math est un programmeur qui a beaucoup de tallant, on ne saurait faire marcher cette buisness sans lui!</p>
+          <div class="team-social-icons">
+            <a target="_blank" href="https://github.com/MathieuDionne2032450"><i class="fab fa-github"></i></a>
+          </div>
+          <!--/ social-icons-->
+        </div>
+      </div>
+      <!--/ Team wrapper 1 end -->
+
+    </div><!-- Col end -->
+
+
+    <div class="col-lg-3 col-sm-6 mb-5">
+        <div class="ts-team-wrapper">
+          <div class="team-img-wrapper">
+            <img loading="lazy" src="../static/img/Alex.jpg" style="height:500px" class="img-fluid" alt="team-img">
+          </div>
+          <div class="ts-team-content-classic">
+            <h3 class="ts-name">Alexandre Perron</h3>
+            <p class="ts-designation">Programmeur</p>
+            <p class="ts-description">Alexandre est un programmeur incroyable et il mériterais une note de 100% sur son travail!</p>
+            <div class="team-social-icons">
+              <a target="_blank" href="https://github.com/Alexandre1832686"><i class="fab fa-github"></i></a>
+            </div>
+            <!--/ social-icons-->
+          </div>
+        </div>
+        <!--/ Team wrapper 1 end -->
+  
+      </div><!-- Col end -->
+
+    <div class="col-lg-3 col-sm-6 mb-5">
+      <div class="ts-team-wrapper">
+        <div class="team-img-wrapper">
+          <img loading="lazy" src="../static/img/frank.png"  style="height:500px"  class="img-fluid" alt="team-img">
+        </div>
+        <div class="ts-team-content-classic">
+          <h3 class="ts-name">Francis Blais</h3>
+          <p class="ts-designation">Consièrge</p>
+          <p class="ts-description">Même s'il est handicapé et sans abris, nous l'avons engagé quand on a vu à quel point il était autonome et respectueux.</p>
+        </div>
+      </div>
+      <!--/ Team wrapper 2 end -->
+    </div><!-- Col end -->
+
+  </div><!-- Content row 1 end -->
+
+
+{% endblock %}
