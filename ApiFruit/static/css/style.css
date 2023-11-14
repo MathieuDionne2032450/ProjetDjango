@@ -205,3 +205,7 @@ background-color: #E53935
     border-bottom-right-radius: .3rem;
     }
     }
+
+.col-md-8 .card:hover{
+  transform: scale(1);
+}
