@@ -9,6 +9,8 @@ urlpatterns = [
     path('peupler/', views.Peupler, name='peupler'),
     path('notreequipe/', views.NotreEquipe, name='NotreEquipe'),
     path('fruit/<int:id_>/', views.Fruit, name='fruit'),
-    path('NousJoindre/',views.SendEmail,name='NousJoindre')
-
+    path('NousJoindre/',views.SendEmail,name='NousJoindre'),
+    path('panier/',views.Panier,name='panier'),
+    path('login/',views.Login,name='login'),
+    path('subscribe/',views.Subscribe,name='subscribe'),
 ]

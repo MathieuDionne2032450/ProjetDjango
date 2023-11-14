@@ -110,9 +110,29 @@ def promotion_non_valide(produits):
         if (p.promotion != None and p.promotion.valide == False):
             p.promotion = None
             p.save()
-            
-    
 
+
+
+def Panier(request):
+
+    context = {
+        
+    }    
+    return render(request,'panier.html',context)        
+    
+def Login(request):
+
+    context = {
+        
+    }    
+    return render(request,'login.html',context)  
+
+def Subscribe(request):
+
+    context = {
+        
+    }    
+    return render(request,'subscribe.html',context)        
 
 
 
