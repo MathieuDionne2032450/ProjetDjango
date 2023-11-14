@@ -91,10 +91,10 @@ def SendEmail(request):
 
     if request.method == "POST":
         if(request.POST['Sujet'] != "" and request.POST['Text'] != ""):
-            print("test")
+            message = request.POST['Nom'] +"\n"+ request.POST['Email'] +"\n\n"+ request.POST['Text']
             send_mail(
             request.POST['Sujet'],
-            request.POST['Text'],
+            message,
             "dionne.mathieu@outlook.com",
             ["2032450@etu.cchic.ca"],
             fail_silently=False,
