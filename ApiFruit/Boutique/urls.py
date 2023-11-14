@@ -12,5 +12,5 @@ urlpatterns = [
     path('NousJoindre/',views.SendEmail,name='NousJoindre'),
     path('panier/',views.Panier,name='panier'),
     path('login/',views.Login,name='login'),
-    path('subscribe/',views.Subscribe,name='subscribe'),
+    path('subscribe/',views.Subscribe,name='subscribe')
 ]
