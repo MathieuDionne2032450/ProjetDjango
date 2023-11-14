@@ -6,17 +6,43 @@
 {% endblock %}
 
 {% block contents %}
+{% load static %}
+
 <div style="margin: 20px;">
-<form action="" method="post">{% csrf_token %}
-<div class="mb-3">
+<form action="" method="post" class="needs-validation" novalidate>{% csrf_token %}
+  <div class="mb-3">
+    <label for="validationCustom03" class="form-label">Nom</label>
+    <input type="text" class="form-control" name="Nom" id="validationCustom03" placeholder="Votre nom" required>
+    <div class="invalid-feedback">
+      Vous devez entrer un nom
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Email</label>
+    <input type="email" class="form-control" name="Email" placeholder="Votre adresse courriel" required>
+    <div class="invalid-feedback">
+      Vous devez entrer un email valide
+    </div>
+  </div>
+  <div class="mb-3">
     <label for="exampleFormControlInput1" class="form-label">Sujet</label>
-    <input type="text" class="form-control" name="Sujet" placeholder="Sujet du message">
+    <input type="text" class="form-control" name="Sujet" placeholder="Sujet du message" required>
+    <div class="invalid-feedback">
+      Vous devez entrer un sujet
+    </div>
   </div>
   <div class="mb-3">
     <label for="exampleFormControlTextarea1" class="form-label">Texte</label>
-    <textarea class="form-control" name="Text" placeholder="Mettre votre adresse courriel pour que l'on puisse vous repondre directement"></textarea>
+    <textarea class="form-control" name="Text" placeholder="Votre message" required></textarea>
+    <div class="invalid-feedback">
+      Vous devez entrer un message
+    </div>
   </div>
   <input type="submit">
 </form>
 </div>
+{% endblock %}
+{% block scripts %} 
+{% load static %}
+  <script src="{% static '/js/script.js' %}"></script> 
 {% endblock %}

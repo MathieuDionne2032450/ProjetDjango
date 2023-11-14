@@ -42,10 +42,11 @@ class Promotion(models.Model):
     #)
     @property
     def valide(self):
-        if (self.date_debut > datetime.date.today() or self.date_fin < datetime.date.today()):
-            self.promo_valide = False
-            self.save()
-            return False
+        if(self.date_debut != None):
+            if (self.date_debut > datetime.date.today() or self.date_fin < datetime.date.today()):
+                self.promo_valide = False
+                self.save()
+                return False
         self.promo_valide = True
         self.save()
         return True
