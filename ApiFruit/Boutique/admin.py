@@ -43,7 +43,7 @@ class ProduitImageAdmin(admin.ModelAdmin):
 
 @admin.register(models.Client)
 class Client(admin.ModelAdmin):
-    list_display = ['nom_client','prenom_client','mot_de_passe','adresse','courriel','num_telephone','date_inscription']
+    list_display = ['nom_client','prenom_client','mot_de_passe','courriel','date_inscription']
     ordering = ['nom_client']
     search_fields = ['nom_client','prenom_client']
 

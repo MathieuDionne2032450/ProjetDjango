@@ -43,20 +43,38 @@
                     <h4 class="mt-1 mb-5 pb-1">API Fruit V2 Final le vrai V2</h4>
                   </div>
   
-                  <form action="" methode="post" class="needs-validation" novalidate>{% csrf_token %}
-                    <p>Créer votre compte</p>
+                 <form action="{% url 'create' %}" method="post" class="needs-validation" novalidate>{% csrf_token %}
+                   <!--   <p>Créer votre compte</p>
   
                     <div class="form-outline mb-4">
-                      <input type="email" id="form2Example11" class="form-control"
-                        placeholder="Nom d'utilisateur" required/>
+                      <input type="text" id="form2Example11" class="form-control" name="nom"
+                        placeholder="Nom" required/>
                         <div class="invalid-feedback">
-                          Vous devez entrer un message
+                          Vous devez votre un nom
                         </div>
-                      <label class="form-label" for="form2Example11">Nom d'utilisateur</label>
+                      <label class="form-label" for="form2Example11">Nom</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" id="form2Example11" class="form-control" name="prenom"
+                        placeholder="Prenom" required/>
+                        <div class="invalid-feedback">
+                          Vous devez entrer votre prenom
+                        </div>
+                      <label class="form-label" for="form2Example11">Prenom</label>
                     </div>
   
                     <div class="form-outline mb-4">
-                      <input type="password" placeholder="*******" id="form2Example22" class="form-control" required/>
+                      <input type="email" id="form2Example11" class="form-control" name="courriel"
+                        placeholder="Adresse courriel" required/>
+                        <div class="invalid-feedback">
+                          Vous devez entrer un message
+                        </div>
+                      <label class="form-label" for="form2Example11">Prenom</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input type="password" placeholder="*******" id="form2Example22" class="form-control" name="mdp" required/>
                       <div class="invalid-feedback">
                         Vous devez entrer un mot de passe
                       </div>
@@ -64,7 +82,7 @@
                     </div>
 
                     <div class="form-outline mb-4">
-                        <input type="password" placeholder="*******" id="form2Example222" class="form-control" required/>
+                        <input type="password" placeholder="*******" id="form2Example222" class="form-control" name="mdpVerif" required/>
                         <div class="invalid-feedback">
                           Vous devez entrer le même mot de passe
                         </div>
@@ -78,8 +96,19 @@
                     <div class="d-flex align-items-center justify-content-center pb-4">
                       <p class="mb-0 me-2">Vous avez un compte?</p>
                       <a href="{% url 'login' %}" type="button" class="btn btn-outline-danger">Connectez-vous</a>
+                    </div>-->
+
+                    {{ form.as_p }}
+
+                    <div class="text-center pt-1 mb-5 pb-1">
+                      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Inscription</button></br>
                     </div>
-  
+
+                    <div class="d-flex align-items-center justify-content-center pb-4">
+                      <p class="mb-0 me-2">Vous avez un compte?</p>
+                      <a href="{% url 'login' %}" type="button" class="btn btn-outline-danger">Connectez-vous</a>
+                    </div>
+                    
                   </form>
   
                 </div>

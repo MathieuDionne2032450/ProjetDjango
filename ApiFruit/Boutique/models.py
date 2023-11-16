@@ -132,9 +132,7 @@ class Client(models.Model):
     nom_client = models.CharField(max_length=255,null=False)
     prenom_client = models.CharField(max_length=255,null=False)
     mot_de_passe = models.CharField(max_length=255,null=False)
-    adresse = models.CharField(max_length=255,null=False)
     courriel = models.CharField(max_length=255,null=False)
-    num_telephone = models.CharField(max_length=255,null=True)
     date_inscription = models.DateTimeField()
     def __str__(self):
         return self.prenom_client + " " + self.nom_client

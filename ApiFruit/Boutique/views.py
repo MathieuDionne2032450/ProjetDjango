@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from django.template import loader
 from . import models
-from django.http import HttpResponse
 from django.core.mail import send_mail
-from django.core.mail import EmailMessage
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views import generic
+from . import forms
 
 
 
@@ -129,13 +132,27 @@ def Login(request):
 
 def Subscribe(request):
 
+    if(request.method == "POST"):
+        new_membre = models.Client(nom_client = request.POST['nom'],prenom_client = request.POST['prenom'],mot_de_passe = request.POST['mpd'],courriel = request.POST['courriel'])
+       
     context = {
         
     }    
-    return render(request,'subscribe.html',context)        
+    return render(request,'subscribe.html',context)    
+
+def Create(request):    
+    if(request.method == "POST"):
+        new_membre = models.Client(nom_client = request.POST['nom'],prenom_client = request.POST['prenom'],mot_de_passe = request.POST['mpd'],courriel = request.POST['courriel'])
+    context = {
+
+    }
+    return render(request,'Accueil.html',context) 
 
 
-
+class AddUserView(generic.CreateView):
+    form_class = forms.AddUserForm
+    template_name = '/subscribe.html'
+    success_url = reverse_lazy('login')
 
 
 
