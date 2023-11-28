@@ -3,6 +3,7 @@ from . import models
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+import array
 from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -17,12 +18,8 @@ from django.contrib.auth.models import User
 def Fruit(request,id_):
     
     fruit = models.Produit.objects.filter(id=id_).first()
-    
-    
-    
     context = {
         'fruit': fruit,
-        
     }
 
     return render(request,'fruit.html',context)
@@ -46,26 +43,71 @@ def Accueil(request):
     return render(request,'accueil.html',context)
 
 
-def Fruits(request,id_):
-    
-
-
-    produits = models.Produit.objects.all()
-    promotion_non_valide(produits)
+def Fruits(request,id_,filtre_):
     categories = models.Categorie.objects.all()
     nomCat = models.Categorie.objects.get(id = id_).nom
-    rabais = models.Promotion.objects.all()
+    promotions = models.Promotion.objects.all()
 
+    produits = []
+        
+    for categorie in categories:
+        if categorie.id == id_:
+            for produit in categorie.produits.all():
+                produits.append(produit)
+
+    if id_ == 1:
+        for categorie in categories:
+            for produit in categorie.produits.all():
+                produits.append(produit)
+
+
+    
+    if filtre_ == 1:
+        produitsaretirer = []
+        for produit in produits:
+            if produit.PrixFinal() > 5:
+                produitsaretirer.append(produit)
+        
+        for produit in produitsaretirer:
+            produits.remove(produit)
+
+
+
+    elif filtre_ == 2:
+        produitsfiltre = []
+        vrailist=[]
+        for promotion in promotions:
+            for produit in promotion.produits.all():
+                produitsfiltre.append(produit)  
+        
+        for produit in produitsfiltre:
+            if produits.__contains__(produit):
+                vrailist.append(produit)
+        produits = vrailist
+
+    promotion_non_valide(produits)
+    
+    
+    
+    produitrecherche = []
     if request.method == "POST":
         if request.POST['recherche'] != "":
-            produits = models.Produit.objects.filter(nom_produit__icontains = request.POST['recherche'])
+            produitrecherche = models.Produit.objects.filter(nom_produit__icontains = request.POST['recherche'])
+
+        vrailist = []
+        for produit in produitrecherche:
+            if produits.__contains__(produit):
+                vrailist.append(produit)
+
+        produits = vrailist
 
     context = {
+        'filtre':filtre_,
         'produits':produits,
         'categories':categories,
         'categorie':id_,
         'categorienom':nomCat,
-        'rabais':rabais
+        'rabais':promotions
     }
 
     return render(request,'fruits.html',context)
@@ -82,8 +124,6 @@ def Categories(request):
    
 
 def NotreEquipe(request):
-    
-    
     context = {
         
     }
@@ -128,6 +168,8 @@ def Panier(request):
         
     }    
     return render(request,'panier.html',context)           
+
+
 
 def Create(request):    
     if(request.method == "POST"):
