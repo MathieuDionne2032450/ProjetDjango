@@ -61,11 +61,11 @@ class Promotion(models.Model):
 class Produit(models.Model):
     nom_produit = models.CharField(max_length=255,null=False)
     quantite_stock = models.IntegerField(validators=[MinValueValidator(0,"La quantite doit etre superrieur a 0")], default=0, null=False)
-    categorie = models.ForeignKey(Categorie, on_delete=models.PROTECT,null=True)
+    categorie = models.ForeignKey(Categorie, on_delete=models.PROTECT,null=True,related_name="produits")
     description_produit = models.CharField(max_length=255,null=True)
     poids = models.FloatField(validators=[MinValueValidator(0,"Le poid doit etre superrieur a 0")], default=0, null=False)
     prixBase = models.FloatField(validators=[MinValueValidator(0,"Le prix doit etre superrieur a 0")],null=False, default=0)
-    promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True,blank=True)
+    promotion = models.ForeignKey(Promotion,on_delete=models.SET_NULL,null=True,blank=True,related_name="produits")
 
     @property
     def image_default(self):

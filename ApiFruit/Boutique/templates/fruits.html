@@ -32,9 +32,9 @@
       <div class="element">
         {% for cat in categories %}
           {% if cat.nom == categorienom %}
-            <a href="{% url 'categorie' cat.id %}" style="color:white !important; font-weight: 800;">{{ cat.nom }}</a></br>
+            <a href="{% url 'categorie' cat.id filtre %}" style="color:white !important; font-weight: 800;">{{ cat.nom }}</a></br>
           {% else %}
-            <a href="{% url 'categorie' cat.id %} " style="color:black !important; font-weight: 600;">{{ cat.nom }}</a></br>
+            <a href="{% url 'categorie' cat.id filtre %} " style="color:black !important; font-weight: 600;">{{ cat.nom }}</a></br>
           {% endif %}
         {% endfor %}
       </div>
@@ -42,8 +42,23 @@
         <p>Filtre</p>
       </div>
       <div class="element">
-        <a href="#">Moins de 5$</a></br>
-        <a href="#">Rabais</a></br>
+        {% if filtre == 0 %}
+          <a href="0" style="color: white !important; font-size: 20; font-weight: 800;">Aucun</a></br>
+        {% else %}  
+        <a href="0" >Aucun</a></br>
+        {% endif %}
+
+        {% if filtre == 1 %}
+        <a href="1" style="color: white !important; font-size: 20; font-weight: 800;">Moins de 5$</a></br>
+        {% else %}  
+        <a href="1" >Moins de 5$</a></br>
+        {% endif %}
+
+        {% if filtre == 2 %}
+        <a href="2" style="color: white !important; font-size: 20; font-weight: 800;">Rabais</a></br>
+        {% else %}  
+        <a href="2" >Rabais</a></br>
+        {% endif %}
       </div>
       
     </div>
@@ -51,8 +66,8 @@
     <div class="col col-lg-10">
       <div class="row" style="margin-bottom: 30px;">
       {% for produit in produits %}
-        {% if produit.categorie.id == categorie or categorienom == "Tout" %}
-            
+        
+          
           
             <div class="card" style="width: 15rem;margin:7px;">
               <a href="../../fruit/{{produit.id}}"> 
@@ -92,7 +107,7 @@
               </a>
               </div>
             
-            {% endif %}
+            
         {% endfor %}
       </div>
     </div>
