@@ -161,7 +161,7 @@ def promotion_non_valide(produits):
 
 def Panier(request):
 
-    PanierUser = models.Commande.objects.filter()
+    PanierUser = models.Commande.objects.filter(client__username = User.username)
     context = {
 
         "panier":PanierUser
