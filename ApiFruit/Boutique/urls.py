@@ -11,8 +11,6 @@ urlpatterns = [
     path('fruit/<int:id_>/', views.Fruit, name='fruit'),
     path('NousJoindre/',views.SendEmail,name='NousJoindre'),
     path('panier/',views.Panier,name='panier'),
-    path('login/',views.Login,name='login'),
-    path('subscribe/',views.Subscribe,name='subscribe'),
     path('create/',views.Create,name='create'),
-    path('test/',views.AddUserView.as_view(template_name='subscribe.html'),name="test")
+    path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription")
 ]

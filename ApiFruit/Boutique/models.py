@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.html import mark_safe
 from django.db.models import Count
 import datetime
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -126,22 +127,12 @@ class ProduitImage(models.Model):
 
     def __str__(self):
         return self.name
-    
-    
-class Client(models.Model):
-    nom_client = models.CharField(max_length=255,null=False)
-    prenom_client = models.CharField(max_length=255,null=False)
-    mot_de_passe = models.CharField(max_length=255,null=False)
-    courriel = models.CharField(max_length=255,null=False)
-    date_inscription = models.DateTimeField()
-    def __str__(self):
-        return self.prenom_client + " " + self.nom_client
 
 class Commande(models.Model):
     #determine si la commande est dans le panier ou si elle est paye et en cours de livraison
     commander = models.BooleanField(default=False)
     date_commander = models.DateTimeField(null=True)
-    client = models.ForeignKey(Client,on_delete=models.CASCADE,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1,related_name='CommandeClient')
+    client = models.ForeignKey(User,on_delete=models.CASCADE,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1,related_name='CommandeClient')
     produit = models.ManyToManyField(Produit,)
 
     def get_products(self):

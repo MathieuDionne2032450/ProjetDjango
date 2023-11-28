@@ -20,17 +20,16 @@
               <div class="row">
                 <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
 
-
+                  {% for produit in panier.produit %}
                   <!-- Image -->
                   <div class="hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
-                      class="w-100" alt="Blue Jeans Jacket" />
+                    <img class="card-img-top" src="{{ produit.image_default.url }}" alt="Card image cap" style="margin-top: 5px; height: 180px;"/>
                     <a href="#!">
                       <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
                     </a>
                   </div>
                   <!-- Image -->
-
+                  {% endfor %}
 
                 </div>
   
@@ -65,7 +64,7 @@
   
                   <!-- Price -->
                   <p class="text-start text-md-center">
-                    <strong>$17.99</strong>
+                    <strong></strong>
                   </p>
                   <!-- Price -->
                 </div>

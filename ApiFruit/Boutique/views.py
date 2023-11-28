@@ -8,6 +8,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from . import forms
+import datetime
+from django.contrib.auth.models import User
 
 
 
@@ -33,6 +35,7 @@ def Accueil(request):
     produits = models.Produit.objects.filter(promotion__isnull=False)
     rabais = models.Promotion.objects.all()
     produitscompte = produits.__len__
+    
     context = {
         'rabais':rabais,
         'categories':categories,
@@ -118,31 +121,18 @@ def promotion_non_valide(produits):
 
 def Panier(request):
 
+    PanierUser = models.Commande.objects.filter()
     context = {
+
+        "panier":PanierUser
         
     }    
-    return render(request,'panier.html',context)        
-    
-def Login(request):
-
-    context = {
-        
-    }    
-    return render(request,'login.html',context)  
-
-def Subscribe(request):
-
-    if(request.method == "POST"):
-        new_membre = models.Client(nom_client = request.POST['nom'],prenom_client = request.POST['prenom'],mot_de_passe = request.POST['mpd'],courriel = request.POST['courriel'])
-       
-    context = {
-        
-    }    
-    return render(request,'subscribe.html',context)    
+    return render(request,'panier.html',context)           
 
 def Create(request):    
     if(request.method == "POST"):
-        new_membre = models.Client(nom_client = request.POST['nom'],prenom_client = request.POST['prenom'],mot_de_passe = request.POST['mpd'],courriel = request.POST['courriel'])
+        new_membre = models.Client(nom_client = request.POST['last_name'],prenom_client = request.POST['first_name'],mot_de_passe = request.POST['password1'],courriel = request.POST['email'],date_inscription = datetime.datetime.now())
+        new_membre.save()
     context = {
 
     }
