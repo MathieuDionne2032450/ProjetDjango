@@ -41,4 +41,10 @@ class ProduitImageAdmin(admin.ModelAdmin):
     ordering = ['name']
     search_fields = ['name']
 
+@admin.register(models.CommandeProduit)
+class CommandeProduitAdmin(admin.ModelAdmin):
+    list_display = ['produit_du_panier','la_commande','quantite']
+    ordering = ['id']
+    search_fields = ['id']
+
 

@@ -160,11 +160,25 @@ def promotion_non_valide(produits):
 
 
 def Panier(request):
+    Produits=None
+    
+    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+    if(PanierUser == None):
+        models.Commande(client = request.user)
+    
+    # verifier si le get existe ou créer un autre view qui n'attend pas de parametre
+    if(request.GET['id_produit'] is not None):
+        produit_ajout = models.Produit.objects.get(id = request.GET['id_produit'])
+        nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
+        nouveau_commande_produit.save()
+    
+    if(PanierUser != None):
+        Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
 
-    PanierUser = models.Commande.objects.filter(client__username = User.username)
     context = {
 
-        "panier":PanierUser
+        "panier":PanierUser,
+        "produits":Produits
         
     }    
     return render(request,'panier.html',context)           
