@@ -15,7 +15,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PAYPAL_TEST = True
 
+PAYPAL_RECEIVER_EMAIL = 'sandbox@gmail.com'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-e^zhp0aq&50)$_&&_!smxp72n%r9aj#qjgveo@y#x@+h-$yrme
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Boutique'
+    'Boutique',
+    
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [

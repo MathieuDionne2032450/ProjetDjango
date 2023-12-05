@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 
 urlpatterns = [
@@ -12,5 +12,11 @@ urlpatterns = [
     path('NousJoindre/',views.SendEmail,name='NousJoindre'),
     path('panier/',views.Panier,name='panier'),
     path('login/',views.Login,name='login'),
-    path('subscribe/',views.Subscribe,name='subscribe')
+    path('subscribe/',views.Subscribe,name='subscribe'),
+    path('paypal/', include('paypal.standard.ipn.urls')),
+    path('paiementreussi/',views.paiementreussi,name='paiementreussi'),
+    path('paiementcancel/',views.paiementcancel,name='paiementcancel'),
+    path('test/',views.paypal,name='paypal'),
+    path('paypal-return',views.paypal_return,name='paypal-return'),
+    path('paypal-cancel',views.paypal_cancel,name='paypal-cancel'),
 ]
