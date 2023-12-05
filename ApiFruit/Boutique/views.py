@@ -11,7 +11,11 @@ from django.views import generic
 from . import forms
 import datetime
 from django.contrib.auth.models import User
-
+from django.urls import reverse
+from django.shortcuts import render, redirect
+from paypal.standard.forms import PayPalPaymentsForm
+import uuid
+from django.conf import settings
 
 
 
@@ -165,7 +169,7 @@ def Panier(request):
     PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
     if(PanierUser == None):
         models.Commande(client = request.user)
-    
+
     if(PanierUser != None):
         Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
 
@@ -249,19 +253,36 @@ class AddUserView(generic.CreateView):
     template_name = '/subscribe.html'
     success_url = reverse_lazy('login')
 
+def paypal(request):
+    host = request.get_host()
+    paypal_dict = {
+        'business':settings.PAYPAL_RECEIVER_EMAIL,
+        'amount':'1.00',
+        'currency_code':'CAD',
+        'item_name':'Commande APIFruit',
+        'notify_url':f'http://{host}{reverse("paypal-ipn")}',
+        'return_url':f'http://{host}{reverse("paypal-return")}',
+        'cancel_return':f'http://{host}{reverse("paypal-cancel")}',
+        'invoice':str(uuid.uuid4()),
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {'form':form}
+    return render(request, 'paypal.html',context)
+
+def paypal_return(request):
+    return redirect('paiementreussi')
+
+def paypal_cancel(request):
+    return redirect('paiementcancel')
+
+def paiementreussi(request):
+    context = {}
+    return render(request, 'paiementReussi.html',context)
 
 
-
-
-
-
-
-
-
-
-
-
-
+def paiementcancel(request):
+    context = {}
+    return render(request, 'paiementCancelled.html',context)
 
 
 
