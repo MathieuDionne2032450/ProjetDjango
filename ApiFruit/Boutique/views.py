@@ -167,10 +167,6 @@ def Panier(request):
         models.Commande(client = request.user)
     
     # verifier si le get existe ou créer un autre view qui n'attend pas de parametre
-    if(request.GET['id_produit'] is not None):
-        produit_ajout = models.Produit.objects.get(id = request.GET['id_produit'])
-        nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
-        nouveau_commande_produit.save()
     
     if(PanierUser != None):
         Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
@@ -183,6 +179,46 @@ def Panier(request):
     }    
     return render(request,'panier.html',context)           
 
+def PanierNouveauProduit(request,id_produit):
+    
+        Produits = None
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        produit_ajout = models.Produit.objects.get(id = id_produit)
+        nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
+        nouveau_commande_produit.save()
+
+        if(PanierUser != None):
+            Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+
+        context = {
+
+        "panier":PanierUser,
+        "produits":Produits
+        
+        }  
+        
+        return render(request,'panier.html',context) 
+
+def PanierDeleteProduit(request,id_produit):
+    
+        Produits = None
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        produit_Delete = models.Produit.objects.get(id = id_produit)
+        nouveau_commande_produit = models.CommandeProduit.objects.filter(produit_du_panier = produit_Delete)
+        nouveau_commande_produit.save()
+
+        if(PanierUser != None):
+            Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+
+        context = {
+
+        "panier":PanierUser,
+        "produits":Produits
+        
+        }  
+        
+        return render(request,'panier.html',context) 
+    
 
 
 def Create(request):    

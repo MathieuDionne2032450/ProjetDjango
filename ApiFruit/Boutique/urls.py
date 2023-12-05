@@ -10,7 +10,7 @@ urlpatterns = [
     path('notreequipe/', views.NotreEquipe, name='NotreEquipe'),
     path('fruit/<int:id_>/', views.Fruit, name='fruit'),
     path('NousJoindre/',views.SendEmail,name='NousJoindre'),
-    #path('panier/<int:id_produit>',views.Panier,name='panier_ajout'),
+    path('panier/<int:id_produit>/',views.PanierNouveauProduit,name='panier'),
     path('panier/',views.Panier,name='panier'),
     path('create/',views.Create,name='create'),
     path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription")
