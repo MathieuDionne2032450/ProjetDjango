@@ -10,6 +10,7 @@ urlpatterns = [
     path('notreequipe/', views.NotreEquipe, name='NotreEquipe'),
     path('fruit/<int:id_>/', views.Fruit, name='fruit'),
     path('NousJoindre/',views.SendEmail,name='NousJoindre'),
+    path('produit_panier_delete/<int:id_produit>/',views.PanierDeleteProduit,name='produit_panier_delete'),
     path('panier/<int:id_produit>/',views.PanierNouveauProduit,name='panier'),
     path('panier/',views.Panier,name='panier'),
     path('create/',views.Create,name='create'),

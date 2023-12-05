@@ -91,6 +91,7 @@ class Produit(models.Model):
     def __str__(self):
         return self.nom_produit
     
+    @property
     def PrixFinal(self):
         
         if (self.promotion != None and self.promotion.valide == False):
@@ -155,7 +156,7 @@ class CommandeProduit(models.Model):
 
     @property
     def prix_quantite(self):
-        return (self.produit_du_panier.PrixFinal() * self.quantite)
+        return (self.produit_du_panier.PrixFinal * self.quantite)
     
 
     

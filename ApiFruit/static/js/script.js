@@ -17,3 +17,22 @@
         }, false)
       })
   })()
+
+  var prixTotal = 0
+  var prixProd = 0
+
+  function Prix (count,id,quantite, prix){
+    var newPrice = prix*quantite;
+    document.getElementById("price_"+id).innerText = newPrice.toFixed(2)+"$";
+    document.getElementById("prix_quantite_"+id).value = newPrice.toFixed(2);
+    PrixTotal(id,count)
+  }
+
+  function PrixTotal(id,countProduit)
+  {
+    for (i = 0; i < countProduit; i++) {
+      prixTotal = document.getElementById("prix_quantite_"+i).value;
+    }
+    
+    document.getElementById("prix_total").innerText = prixTotal.toFixed(2)+"$";
+  }

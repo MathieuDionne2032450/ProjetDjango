@@ -16,8 +16,10 @@
               <h5 class="mb-0">Nombre de produit : {{produits.count}}</h5>
             </div>
             {% if produits is not None %}
-
+            {% with x=1 %}
               {% for produit in produits %}
+              
+              {{x|add:"1"}}
               <div class="card-body">
                 <!-- Single item -->
                 <div class="row">
@@ -41,10 +43,10 @@
                     <p><strong> {{ produit.produit_du_panier.nom_produit }}</strong></p>
                     <p>Categorie : {{ produit.produit_du_panier.categorie }}</p>
                     <p>Description : {{ produit.produit_du_panier.description_produit }}</p>
-                    <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                    <a type="button"  href="{% url 'produit_panier_delete' produit.produit_du_panier.id %}" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
                       title="Remove item">
                       <i class="fas fa-trash"></i>
-                    </button>
+                  </a>
                     
                     <!-- Data -->
                   </div>
@@ -58,7 +60,7 @@
                       
     
                       <div style="width:100%">
-                        <input id="form1" min="0" name="quantity" value="{{produit.quantite}}" type="number" class="form-control" />
+                        <input id="form1" min="0" name="quantity" value="{{produit.quantite}}" type="number" onchange="Prix('{{count}}','{{produit.id}}',this.value, '{{produit.produit_du_panier.PrixFinal}}');" class="form-control" />
                         <label class="form-label" for="form1">Quantite</label>
                       </div>
     
@@ -68,12 +70,17 @@
     
                     <!-- Price -->
                     <p class="text-start text-md-center">
-                      <strong>{{produit.prix_quantite | floatformat:"-2" }}$</strong>
+                      <input type="text" value="{{x|add:'1'}}">
+                      <strong><label id="price_{{produit.id}}">{{produit.prix_quantite | floatformat:"-2" }}$</label></strong>
+                      <input type="hidden" id="prix_quantite_{{produit.id}}">
                     </p>
                     <!-- Price -->
                   </div>
                 </div>
-                {% endfor %}
+              </div>
+              
+              {% endfor %}
+              {% endwith %}
 
               {% else %}
               <div class="card-body">
@@ -124,7 +131,7 @@
                       <p class="mb-0">(including VAT)</p>
                     </strong>
                   </div>
-                  <span><strong>$53.98</strong></span>
+                  <span><strong><label id="prix_total"></label></strong></span>
                 </li>
               </ul>
   

@@ -166,15 +166,14 @@ def Panier(request):
     if(PanierUser == None):
         models.Commande(client = request.user)
     
-    # verifier si le get existe ou créer un autre view qui n'attend pas de parametre
-    
     if(PanierUser != None):
         Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
 
     context = {
 
         "panier":PanierUser,
-        "produits":Produits
+        "produits":Produits,
+        "count":Produits.count()
         
     }    
     return render(request,'panier.html',context)           
@@ -183,9 +182,21 @@ def PanierNouveauProduit(request,id_produit):
     
         Produits = None
         PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        if(PanierUser == None):
+            PanierUser = models.Commande(client = request.user)
+            PanierUser.save()
         produit_ajout = models.Produit.objects.get(id = id_produit)
-        nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
-        nouveau_commande_produit.save()
+
+
+        verif_produit_panier = models.CommandeProduit.objects.filter(produit_du_panier = produit_ajout, la_commande = PanierUser)
+        if verif_produit_panier.count() > 0:
+            produit_verif = verif_produit_panier[0]
+            if(produit_verif != None):
+                produit_verif.quantite += 1
+                produit_verif.save()
+        else:
+            nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
+            nouveau_commande_produit.save()
 
         if(PanierUser != None):
             Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
@@ -193,7 +204,8 @@ def PanierNouveauProduit(request,id_produit):
         context = {
 
         "panier":PanierUser,
-        "produits":Produits
+        "produits":Produits,
+        "count":Produits.count()
         
         }  
         
@@ -204,8 +216,8 @@ def PanierDeleteProduit(request,id_produit):
         Produits = None
         PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
         produit_Delete = models.Produit.objects.get(id = id_produit)
-        nouveau_commande_produit = models.CommandeProduit.objects.filter(produit_du_panier = produit_Delete)
-        nouveau_commande_produit.save()
+        nouveau_commande_produit = models.CommandeProduit.objects.filter(produit_du_panier = produit_Delete, la_commande = PanierUser)
+        nouveau_commande_produit.delete()
 
         if(PanierUser != None):
             Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
@@ -213,7 +225,8 @@ def PanierDeleteProduit(request,id_produit):
         context = {
 
         "panier":PanierUser,
-        "produits":Produits
+        "produits":Produits,
+        "count":Produits.count()
         
         }  
         
