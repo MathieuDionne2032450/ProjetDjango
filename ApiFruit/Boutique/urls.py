@@ -10,9 +10,10 @@ urlpatterns = [
     path('notreequipe/', views.NotreEquipe, name='NotreEquipe'),
     path('fruit/<int:id_>/', views.Fruit, name='fruit'),
     path('NousJoindre/',views.SendEmail,name='NousJoindre'),
+    #path('panier/<int:id_produit>',views.Panier,name='panier_ajout'),
     path('panier/',views.Panier,name='panier'),
-    path('login/',views.Login,name='login'),
-    path('subscribe/',views.Subscribe,name='subscribe'),
+    path('create/',views.Create,name='create'),
+    path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription")
     path('paypal/', include('paypal.standard.ipn.urls')),
     path('paiementreussi/',views.paiementreussi,name='paiementreussi'),
     path('paiementcancel/',views.paiementcancel,name='paiementcancel'),

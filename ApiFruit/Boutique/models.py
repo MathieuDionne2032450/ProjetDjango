@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.html import mark_safe
 from django.db.models import Count
 import datetime
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -126,35 +127,35 @@ class ProduitImage(models.Model):
 
     def __str__(self):
         return self.name
-    
-    
-class Client(models.Model):
-    nom_client = models.CharField(max_length=255,null=False)
-    prenom_client = models.CharField(max_length=255,null=False)
-    mot_de_passe = models.CharField(max_length=255,null=False)
-    adresse = models.CharField(max_length=255,null=False)
-    courriel = models.CharField(max_length=255,null=False)
-    num_telephone = models.CharField(max_length=255,null=True)
-    date_inscription = models.DateTimeField()
-    def __str__(self):
-        return self.prenom_client + " " + self.nom_client
 
 class Commande(models.Model):
     #determine si la commande est dans le panier ou si elle est paye et en cours de livraison
     commander = models.BooleanField(default=False)
     date_commander = models.DateTimeField(null=True)
-    client = models.ForeignKey(Client,on_delete=models.CASCADE,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1,related_name='CommandeClient')
-    produit = models.ManyToManyField(Produit,)
+    client = models.ForeignKey(User,on_delete=models.CASCADE,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1,related_name='CommandeClient')
 
     def get_products(self):
-        if(self.produit.count != 0):
-            return ",\n".join([produit.nom_produit for produit in self.produit.all()])
+        if(self.commande_quantite.count != 0):
+            return ",\n".join([commande_quantite.produit_du_panier.nom_produit for commande_quantite in self.commande_quantite.all()])
+        else:
+            return "Erreur"
+        
+    def list_produit(self):
+        return self.produit
+
         
     def __str__(self):
         return 'Commande '+ self.id.__str__() + ' :' + self.client.__str__()
         
 
-    
+class CommandeProduit(models.Model):
+    produit_du_panier = models.ForeignKey(Produit,on_delete=models.RESTRICT,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1)
+    la_commande = models.ForeignKey(Commande,on_delete=models.RESTRICT,validators=[MinValueValidator(0,"L'id doit etre superrieur a 0")],null=False,default=1,related_name="commande_quantite")
+    quantite = models.IntegerField(default=1,validators=[MinValueValidator(1,"L'id doit etre superrieur a 0")])
+
+    @property
+    def prix_quantite(self):
+        return (self.produit_du_panier.PrixFinal() * self.quantite)
     
 
     

@@ -1,16 +1,20 @@
 from django.shortcuts import render
-from django.template import loader
 from . import models
-from django.http import HttpResponse
 from django.core.mail import send_mail
-from django.core.mail import EmailMessage
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views import generic
+from . import forms
+import datetime
+from django.contrib.auth.models import User
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from paypal.standard.forms import PayPalPaymentsForm
 import uuid
 from django.conf import settings
-
 
 
 
@@ -31,6 +35,7 @@ def Accueil(request):
     produits = models.Produit.objects.filter(promotion__isnull=False)
     rabais = models.Promotion.objects.all()
     produitscompte = produits.__len__
+    
     context = {
         'rabais':rabais,
         'categories':categories,
@@ -158,30 +163,45 @@ def promotion_non_valide(produits):
 
 
 def Panier(request):
-   
-    context = {
-
-    }    
-    return render(request,'panier.html',context)        
+    Produits=None
     
-def Login(request):
+    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+    if(PanierUser == None):
+        models.Commande(client = request.user)
+
+    # verifier si le get existe ou créer un autre view qui n'attend pas de parametre
+    if(request.GET['id_produit'] is not None):
+        produit_ajout = models.Produit.objects.get(id = request.GET['id_produit'])
+        nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
+        nouveau_commande_produit.save()
+    
+    if(PanierUser != None):
+        Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
 
     context = {
+
+        "panier":PanierUser,
+        "produits":Produits
         
     }    
-    return render(request,'login.html',context)  
+    return render(request,'panier.html',context)           
 
 
 
-def Subscribe(request):
-
+def Create(request):    
+    if(request.method == "POST"):
+        new_membre = models.Client(nom_client = request.POST['last_name'],prenom_client = request.POST['first_name'],mot_de_passe = request.POST['password1'],courriel = request.POST['email'],date_inscription = datetime.datetime.now())
+        new_membre.save()
     context = {
-        
-    }    
-    return render(request,'subscribe.html',context)        
+
+    }
+    return render(request,'Accueil.html',context) 
 
 
-
+class AddUserView(generic.CreateView):
+    form_class = forms.AddUserForm
+    template_name = '/subscribe.html'
+    success_url = reverse_lazy('login')
 
 def paypal(request):
     host = request.get_host()
