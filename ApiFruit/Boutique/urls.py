@@ -14,7 +14,9 @@ urlpatterns = [
     path('panier/<int:id_produit>/',views.PanierNouveauProduit,name='panier'),
     path('panier/',views.Panier,name='panier'),
     path('create/',views.Create,name='create'),
-    path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription")
+    #path('facture/',views.facture,name='facture'),
+    path('ajout_quantite/<int:id_produit>/<int:quantite>',views.Ajout_quantite,name='ajout_quantite'),
+    path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription"),
     path('paypal/', include('paypal.standard.ipn.urls')),
     path('paiementreussi/',views.paiementreussi,name='paiementreussi'),
     path('paiementcancel/',views.paiementcancel,name='paiementcancel'),
