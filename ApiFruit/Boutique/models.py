@@ -160,3 +160,10 @@ class CommandeProduit(models.Model):
     
 
     
+
+
+
+
+
+
+    

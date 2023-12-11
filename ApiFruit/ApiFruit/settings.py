@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Boutique',
-    
     'paypal.standard.ipn',
 ]
 

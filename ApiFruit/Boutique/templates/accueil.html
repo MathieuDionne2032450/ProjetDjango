@@ -33,9 +33,6 @@
       <h2 style="font-weight: 800;">Nos Rabais</h2>
     </div>
   {% endif %}
-
-
-
   <div class="col col-lg-12">
     <div class="row" style="margin-bottom: 30px;">
     {% for produit in produits %}
@@ -63,12 +60,8 @@
                   <div style="height:60px">
                     <h6 class="card-title">{{produit.description_produit}} (environ {{produit.poids}} g)</h6>
                   </div>
-                  
-                    
                     <h6 class="card-title" style="text-decoration: line-through;">{{produit.prixBase}} $</h6>
                     <h6 class="card-title" style="font-weight: bolder;">{{produit.PrixFinal}} $</h6>
-                  
-                  
                   <a class="dot" href="#"><i class="fa-solid fa-cart-plus icon" style></i></a>
               </div>
             </a>
@@ -76,14 +69,5 @@
       {% endfor %}
     </div>
   </div>
-  
-      
-     
-    
 </div>
-
-
-
-
-
 {% endblock %}
