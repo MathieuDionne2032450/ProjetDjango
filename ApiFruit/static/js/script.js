@@ -1,9 +1,9 @@
+
 (function () {
     'use strict'
   
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
-    console.log("test")
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
       .forEach(function (form) {
@@ -18,21 +18,30 @@
       })
   })()
 
-  var prixTotal = 0
-  var prixProd = 0
 
-  function Prix (count,id,quantite, prix){
+  function Prix (numero,id,quantite, prix){
     var newPrice = prix*quantite;
+    console.log(id)
+    $.ajax({url:"/ajout_quantite/"+id+"/"+quantite})
     document.getElementById("price_"+id).innerText = newPrice.toFixed(2)+"$";
-    document.getElementById("prix_quantite_"+id).value = newPrice.toFixed(2);
-    PrixTotal(id,count)
+    
+    document.getElementById("prix_quantite_"+numero).value = newPrice.toFixed(2);
+
+    $("#prix_total").text(PrixTotal()+"$");
+   
+    
   }
 
-  function PrixTotal(id,countProduit)
+  function PrixTotal()
   {
-    for (i = 0; i < countProduit; i++) {
-      prixTotal = document.getElementById("prix_quantite_"+i).value;
+    prixTotal = 0;
+    for (i = 1; i <= $("#nbProduit").val(); i++) {
+      prix = parseFloat(document.getElementById("prix_quantite_"+i).value);
+      prixTotal += prix;
     }
-    
-    document.getElementById("prix_total").innerText = prixTotal.toFixed(2)+"$";
+    return prixTotal.toFixed(2);
   }
+
+  $("#prix_total").ready(function (){
+    $("#prix_total").text(PrixTotal()+"$");
+  });

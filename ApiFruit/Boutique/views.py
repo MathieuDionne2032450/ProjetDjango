@@ -16,6 +16,7 @@ from django.shortcuts import render, redirect
 from paypal.standard.forms import PayPalPaymentsForm
 import uuid
 from django.conf import settings
+from django.http import HttpResponse
 
 
 
@@ -202,8 +203,11 @@ def PanierNouveauProduit(request,id_produit):
             nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
             nouveau_commande_produit.save()
 
+        
         if(PanierUser != None):
             Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+            
+
 
         context = {
 
@@ -246,6 +250,21 @@ def Create(request):
 
     }
     return render(request,'Accueil.html',context) 
+
+def Ajout_quantite(request,id_produit,quantite):
+    Produit = None
+    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+    if(PanierUser != None):
+        Produit = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id,id = id_produit).first()
+        if(Produit != None):
+            Produit.quantite = quantite
+            Produit.save()
+
+    return HttpResponse()
+
+    
+    
+    
 
 
 class AddUserView(generic.CreateView):

@@ -13,7 +13,7 @@ class CategorieAdmin(admin.ModelAdmin):
 @admin.register(models.Produit)
 class ProduitAdmin(admin.ModelAdmin):
     
-    list_display = ['image_tag','nom_produit','categorie','description_produit','quantite_stock','poids','prixBase','promotion',"PrixFinal"]
+    list_display = ['image_tag','id','nom_produit','categorie','description_produit','quantite_stock','poids','prixBase','promotion',"PrixFinal"]
     ordering = ['nom_produit']
     search_fields = ['nom_produit']
     list_filter = ['categorie']
