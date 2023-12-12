@@ -28,7 +28,7 @@ class AddUserForm(UserCreationForm):
         mail = self.cleaned_data['email']
         send_mail(
             "Creation d'un compte",
-            "Merci de vous de vous avoir creer un compte sur ApiFruit",
+            "Merci de vous d'avoir cree un compte sur ApiFruit",
             "dionne.mathieu@outlook.com",
             [mail],
             fail_silently=False,
