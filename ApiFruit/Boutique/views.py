@@ -17,7 +17,9 @@ from paypal.standard.forms import PayPalPaymentsForm
 import uuid
 from django.conf import settings
 from django.http import HttpResponse
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.decorators import login_required
 
 
 def Fruit(request,id_):
@@ -166,22 +168,26 @@ def promotion_non_valide(produits):
 
 def Panier(request):
     Produits=None
+
+    if(request.user.is_authenticated):
     
-    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
-    if(PanierUser == None):
-        models.Commande(client = request.user)
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        if(PanierUser == None):
+            models.Commande(client = request.user)
 
-    if(PanierUser != None):
-        Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+        if(PanierUser != None):
+            Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
 
-    context = {
+        context = {
 
-        "panier":PanierUser,
-        "produits":Produits,
-        "count":Produits.count()
-        
-    }    
-    return render(request,'panier.html',context)           
+            "panier":PanierUser,
+            "produits":Produits,
+            "count":Produits.count()
+            
+        }    
+        return render(request,'panier.html',context)   
+    else :
+        return render(request,'registration/login.html')   
 
 def PanierNouveauProduit(request,id_produit):
     
@@ -252,25 +258,38 @@ def Create(request):
     return render(request,'Accueil.html',context) 
 
 def Ajout_quantite(request,id_produit,quantite):
-    Produit = None
-    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
-    if(PanierUser != None):
-        Produit = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id,id = id_produit).first()
-        if(Produit != None):
-            Produit.quantite = quantite
-            Produit.save()
+    produit = None
+    panier_user = models.Commande.objects.filter(client__id = request.user.pk).first()
+    if(panier_user != None):
+        produit = models.CommandeProduit.objects.filter(la_commande__id = panier_user.id,id = id_produit).first()
+        if(produit != None):
+            produit.quantite = quantite
+            produit.save()
 
     return HttpResponse()
-
-    
-    
-    
-
 
 class AddUserView(generic.CreateView):
     form_class = forms.AddUserForm
     template_name = '/subscribe.html'
     success_url = reverse_lazy('login')
+
+class EditUserView(LoginRequiredMixin, generic.UpdateView):
+    form_class = forms.EditUserForm
+    template_name = 'registration/edit_user.html'
+    success_url = reverse_lazy('accueil')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+class ChangeUserPasswordView(LoginRequiredMixin, PasswordChangeView):
+    form_class = forms.ChangeUserPasswordForm
+    success_url = reverse_lazy('change_password_success')
+
+@login_required
+def user_password_success_view(request):
+    return render(request, 'registration/change_mdp_reussi.html', {})
+
+
 
 def paypal(request):
     host = request.get_host()

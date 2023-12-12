@@ -66,7 +66,7 @@
                       
     
                       <div style="width:100%">
-                        <input id="form1" min="0" name="quantity_{{forloop.counter}}" value="{{produit.quantite}}" type="number" onchange="Prix('{{forloop.counter}}','{{produit.id}}',this.value, '{{produit.produit_du_panier.PrixFinal}}','{{count}}');" class="form-control" />
+                        <input id="form1" min="0" max="{{produit.produit_du_panier.quantite_stock}}" name="quantity_{{forloop.counter}}" value="{{produit.quantite}}" type="number" onchange="Prix('{{forloop.counter}}','{{produit.id}}',this.value, '{{produit.produit_du_panier.PrixFinal}}','{{count}}');" class="form-control" />
                         <label class="form-label" for="form1">Quantite</label>
                       </div>
     
@@ -131,10 +131,7 @@
                 <li
                   class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                   <div>
-                    <strong>Total amount</strong>
-                    <strong>
-                      <p class="mb-0">(including VAT)</p>
-                    </strong>
+                    <strong>Montant total</strong>
                   </div>
                   <span><strong><p id="prix_total"></p></strong></span>
                 </li>
