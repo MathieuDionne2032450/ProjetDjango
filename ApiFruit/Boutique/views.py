@@ -301,6 +301,7 @@ def paypal(request):
             produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
     for produit in produits:
         prixtotal += produit.prix_quantite
+
     taxes = round(prixtotal*0.14975,2)
     prixfinal = round(prixtotal + taxes,2)
         
@@ -341,8 +342,19 @@ def paiementreussi(request):
             produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
     for produit in produits:
         prixtotal += produit.prix_quantite
+        produit.produit_du_panier.quantite_stock -= produit.quantite
+        produit.produit_du_panier.save()
     taxes = round(prixtotal*0.14975,2)
     prixfinal = round(prixtotal + taxes,2)
+
+    send_mail(
+        'Achat reussi',
+        'Ce message confirme que votre achat a ete effectue avec succes',
+        "dionne.mathieu@outlook.com",
+        [request.user.email],
+        fail_silently=False,
+        )
+
     context = {
         'prixtotal':round(prixtotal,2),
         'taxes':taxes,

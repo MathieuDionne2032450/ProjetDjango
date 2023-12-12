@@ -19,7 +19,6 @@ urlpatterns = [
     path('paiementreussi/',views.paiementreussi,name='paiementreussi'),
     path('paiementcancel/',views.paiementcancel,name='paiementcancel'),
     path('paiement/',views.paypal,name='paypal'),
-    path('test/',views.paypal,name='paypal'),
     path('paypal-return',views.paypal_return,name='paypal-return'),
     path('paypal-cancel',views.paypal_cancel,name='paypal-cancel'),
     path('edit/',views.EditUserView.as_view(),name="edit_user"),
