@@ -20,6 +20,7 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.decorators import login_required
+from datetime import date
 
 
 def Fruit(request,id_):
@@ -167,13 +168,14 @@ def promotion_non_valide(produits):
 
 
 def Panier(request):
-    Produits=None
+    
 
     if(request.user.is_authenticated):
-    
-        PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        Produits=None
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk, commander = 0).first()
         if(PanierUser == None):
-            models.Commande(client = request.user)
+            PanierUser = models.Commande(client = request.user)
+            PanierUser.save()
 
         if(PanierUser != None):
             Produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
@@ -190,9 +192,9 @@ def Panier(request):
         return render(request,'registration/login.html')   
 
 def PanierNouveauProduit(request,id_produit):
-    
+    if(request.user.is_authenticated):
         Produits = None
-        PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk, commander = 0).first()
         if(PanierUser == None):
             PanierUser = models.Commande(client = request.user)
             PanierUser.save()
@@ -225,11 +227,13 @@ def PanierNouveauProduit(request,id_produit):
         }  
         
         return render(request,'panier.html',context) 
+    else :
+        return render(request,'registration/login.html') 
 
 def PanierDeleteProduit(request,id_produit):
-    
+    if(request.user.is_authenticated):
         Produits = None
-        PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk, commander = 0).first()
         produit_Delete = models.Produit.objects.get(id = id_produit)
         nouveau_commande_produit = models.CommandeProduit.objects.filter(produit_du_panier = produit_Delete, la_commande = PanierUser)
         nouveau_commande_produit.delete()
@@ -246,7 +250,8 @@ def PanierDeleteProduit(request,id_produit):
         }  
         
         return render(request,'panier.html',context) 
-    
+    else :
+        return render(request,'registration/login.html')
 
 
 def Create(request):    
@@ -260,7 +265,7 @@ def Create(request):
 
 def Ajout_quantite(request,id_produit,quantite):
     produit = None
-    panier_user = models.Commande.objects.filter(client__id = request.user.pk).first()
+    panier_user = models.Commande.objects.filter(client__id = request.user.pk, commander = 0).first()
     if(panier_user != None):
         produit = models.CommandeProduit.objects.filter(la_commande__id = panier_user.id,id = id_produit).first()
         if(produit != None):
@@ -293,39 +298,42 @@ def user_password_success_view(request):
 
 
 def paypal(request):
-    host = request.get_host()
-    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
-    produits = None
-    prixtotal = 0
-    if(PanierUser != None):
-            produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
-    for produit in produits:
-        prixtotal += produit.prix_quantite
-    taxes = round(prixtotal*0.14975,2)
-    prixfinal = round(prixtotal + taxes,2)
+    if(request.user.is_authenticated):
+        host = request.get_host()
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk, commander = 0).first()
+        produits = None
+        prixtotal = 0
+        if(PanierUser != None):
+                produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+        for produit in produits:
+            prixtotal += produit.prix_quantite
+        taxes = round(prixtotal*0.14975,2)
+        prixfinal = round(prixtotal + taxes,2)
+            
+
+        paypal_dict = {
+            'business':settings.PAYPAL_RECEIVER_EMAIL,
+            'amount':prixfinal,
+            'currency_code':'CAD',
+            'item_name':'Commande APIFruit',
+            'notify_url':f'http://{host}{reverse("paypal-ipn")}',
+            'return_url':f'http://{host}{reverse("paypal-return")}',
+            'cancel_return':f'http://{host}{reverse("paypal-cancel")}',
+            'invoice':str(uuid.uuid4()),
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+
+        context = {
+                'form':form,
+                'produits':produits,
+                'prixtotal':round(prixtotal,2),
+                'taxes':taxes,
+                'prixfinal':prixfinal,
+                }
         
-
-    paypal_dict = {
-        'business':settings.PAYPAL_RECEIVER_EMAIL,
-        'amount':prixfinal,
-        'currency_code':'CAD',
-        'item_name':'Commande APIFruit',
-        'notify_url':f'http://{host}{reverse("paypal-ipn")}',
-        'return_url':f'http://{host}{reverse("paypal-return")}',
-        'cancel_return':f'http://{host}{reverse("paypal-cancel")}',
-        'invoice':str(uuid.uuid4()),
-    }
-    form = PayPalPaymentsForm(initial=paypal_dict)
-
-    context = {
-            'form':form,
-            'produits':produits,
-            'prixtotal':round(prixtotal,2),
-            'taxes':taxes,
-            'prixfinal':prixfinal,
-            }
-    
-    return render(request, 'paypal.html',context)
+        return render(request, 'paypal.html',context)
+    else :
+        return render(request,'registration/login.html')
 
 def paypal_return(request):
     return redirect('paiementreussi')
@@ -334,23 +342,30 @@ def paypal_cancel(request):
     return redirect('paiementcancel')
 
 def paiementreussi(request):
-    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
-    produits = None
-    prixtotal = 0
-    if(PanierUser != None):
-            produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
-    for produit in produits:
-        prixtotal += produit.prix_quantite
-    taxes = round(prixtotal*0.14975,2)
-    prixfinal = round(prixtotal + taxes,2)
-    context = {
-        'prixtotal':round(prixtotal,2),
-        'taxes':taxes,
-        'prixfinal':prixfinal,
+    if(request.user.is_authenticated):
+        PanierUser = models.Commande.objects.filter(client__id = request.user.pk, commander = 0).first()
+        produits = None
+        prixtotal = 0
 
-    }
-    return render(request, 'paiementReussi.html',context)
+        
+        if(PanierUser != None):
+                produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+        for produit in produits:
+            prixtotal += produit.prix_quantite
+        taxes = round(prixtotal*0.14975,2)
+        prixfinal = round(prixtotal + taxes,2)
+        PanierUser.commander = 1
+        PanierUser.date_commander = date.today()
+        PanierUser.save()
+        context = {
+            'prixtotal':round(prixtotal,2),
+            'taxes':taxes,
+            'prixfinal':prixfinal,
 
+        }
+        return render(request, 'paiementReussi.html',context)
+    else :
+            return render(request,'registration/login.html')
 
 def paiementcancel(request):
     context = {}

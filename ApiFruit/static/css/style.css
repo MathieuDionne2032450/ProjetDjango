@@ -157,11 +157,17 @@ background-color: #E53935
     position: sticky; top: 0;
   }
   
+
+ .nav-item a{
+    text-decoration: none !important;
+    color:white !important;
+  }
+  
   a{
     text-decoration: none !important;
     color:black !important;
   }
-  
+
   p span{
     color:orangered;
   }
