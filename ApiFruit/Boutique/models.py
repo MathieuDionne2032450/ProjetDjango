@@ -156,7 +156,7 @@ class CommandeProduit(models.Model):
 
     @property
     def prix_quantite(self):
-        return (self.produit_du_panier.PrixFinal * self.quantite)
+        return (round(self.produit_du_panier.PrixFinal * self.quantite,2))
     
 
     

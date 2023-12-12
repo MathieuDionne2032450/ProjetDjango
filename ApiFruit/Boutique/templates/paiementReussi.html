@@ -1,7 +1,7 @@
 {% extends 'Base.html' %}
 {% block title %}
 <div style="text-align: center;width: auto; margin-top: 100px; margin-bottom: 30px;">
-    <h1><b>Paiement réussi</b></h1>
+    <h1><b>Paiement Réussi</b></h1>
 </div>
 {% endblock %}
 
@@ -16,42 +16,19 @@
                     <div class="card-header py-3">
                         <h5 class="mb-0" style="text-align: center;">Résumé de la transaction</h5>
                     </div>
-
-
-
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-
-
-
-
-
                     <div class="card-body">
-                        <h3 class="mb-0" style = "font-weight: 600; text-align: right;">Prix total : 28.90$</h3>
+                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Prix total : {{prixtotal}}$</h4>
+                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Livraison : 0.00$</h4>
+                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Taxes : {{taxes}}$</h4>
+                        <h3 class="mb-0" style = "font-weight: 600; text-align: right;">Prix final : {{prixfinal}}$</h3>
+                    </div>
+
+                    <div style="text-align: right; margin-bottom: 30px;">
+                        {{ form.render }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div style="text-align: center; margin-bottom: 30px;">
-        <button type="button" class="btn btn-primary">Retourner à l'accueil</button>
-    </div>
+    
 {% endblock %}

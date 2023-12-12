@@ -198,6 +198,7 @@ def PanierNouveauProduit(request,id_produit):
             produit_verif = verif_produit_panier[0]
             if(produit_verif != None):
                 produit_verif.quantite += 1
+                
                 produit_verif.save()
         else:
             nouveau_commande_produit = models.CommandeProduit(produit_du_panier = produit_ajout,la_commande = PanierUser, quantite = 1)
@@ -274,9 +275,20 @@ class AddUserView(generic.CreateView):
 
 def paypal(request):
     host = request.get_host()
+    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+    produits = None
+    prixtotal = 0
+    if(PanierUser != None):
+            produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+    for produit in produits:
+        prixtotal += produit.prix_quantite
+    taxes = round(prixtotal*0.14975,2)
+    prixfinal = prixtotal + taxes
+        
+
     paypal_dict = {
         'business':settings.PAYPAL_RECEIVER_EMAIL,
-        'amount':'1.00',
+        'amount':prixfinal,
         'currency_code':'CAD',
         'item_name':'Commande APIFruit',
         'notify_url':f'http://{host}{reverse("paypal-ipn")}',
@@ -285,7 +297,15 @@ def paypal(request):
         'invoice':str(uuid.uuid4()),
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {'form':form}
+
+    context = {
+            'form':form,
+            'produits':produits,
+            'prixtotal':round(prixtotal,2),
+            'taxes':taxes,
+            'prixfinal':prixfinal,
+            }
+    
     return render(request, 'paypal.html',context)
 
 def paypal_return(request):
@@ -295,7 +315,21 @@ def paypal_cancel(request):
     return redirect('paiementcancel')
 
 def paiementreussi(request):
-    context = {}
+    PanierUser = models.Commande.objects.filter(client__id = request.user.pk).first()
+    produits = None
+    prixtotal = 0
+    if(PanierUser != None):
+            produits = models.CommandeProduit.objects.filter(la_commande__id = PanierUser.id)
+    for produit in produits:
+        prixtotal += produit.prix_quantite
+    taxes = round(prixtotal*0.14975,2)
+    prixfinal = prixtotal + taxes
+    context = {
+        'prixtotal':round(prixtotal,2),
+        'taxes':taxes,
+        'prixfinal':prixfinal,
+
+    }
     return render(request, 'paiementReussi.html',context)
 
 

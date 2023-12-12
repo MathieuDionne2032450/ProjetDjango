@@ -18,37 +18,24 @@
                     </div>
 
 
-
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
-                    <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
-                        <h4 class="mb-0">Pomme macintosh</h4>
-                        <h6 class="mb-0">Quantité : 3</h6>
-                        <h6 class="mb-0">prix : 3.59$ / unité</h6>
-                    </div>
+                    {% for produit in produits %}
+                        <div class="card-body" style="border:0px; border-bottom: 1px; border-color: black; border-style: solid; margin:10px">
+                            <h4 class="mb-0">{{produit.produit_du_panier}}</h4>
+                            <h6 class="mb-0">Quantité : {{produit.quantite}}</h6>
+                            <h6 class="mb-0">prix : {{produit.prix_quantite}}$</h6>
+                        </div>
+                    {% endfor %}
+                    
 
 
 
 
 
                     <div class="card-body">
-                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Prix total : 28.90$</h4>
-                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Livraison : 1.00$</h4>
-                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Taxes : 1.00$</h4>
-                        <h3 class="mb-0" style = "font-weight: 600; text-align: right;">Prix final : 30.90$</h3>
+                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Prix total : {{prixtotal}}$</h4>
+                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Livraison : 0.00$</h4>
+                        <h4 class="mb-0" style = "font-weight: 400; text-align: right;">Taxes : {{taxes}}$</h4>
+                        <h3 class="mb-0" style = "font-weight: 600; text-align: right;">Prix final : {{prixfinal}}$</h3>
                     </div>
 
                     <div style="text-align: right; margin-bottom: 30px;">
