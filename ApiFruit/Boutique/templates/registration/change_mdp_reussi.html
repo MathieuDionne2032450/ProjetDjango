@@ -42,21 +42,12 @@
                       style="width: 185px;" alt="logo">
                     <h4 class="mt-1 mb-5 pb-1">API Fruit V2 Final le vrai V2</h4>
                   </div>
-  
-                 <form method="post" class="needs-validation" novalidate>
-                  {% csrf_token %}
-                    {{ form.as_p }}
+                 
+                  <p>Votre Mot de passe à été modifié avec succes !</p>
 
-                    <div class="text-center pt-1 mb-5 pb-1">
-                      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Inscription</button></br>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-center pb-4">
-                      <p class="mb-0 me-2">Vous avez un compte?</p>
-                      <a href="{% url 'login' %}" type="button" class="btn btn-outline-danger">Connectez-vous</a>
-                    </div>
-                    
-                  </form>
+                  <div class="d-flex align-items-center justify-content-center pb-4">
+                    <a href="{% url 'accueil' %}" type="button" class="btn btn-outline-danger">retour à l'accueil</a>
+                  </div>
   
                 </div>
               </div>
@@ -72,8 +63,6 @@
       </div>
     </div>
   </section>
-  
-  <script src="{% static '/js/script.js' %}"></script> 
 
 </body>
 </html>

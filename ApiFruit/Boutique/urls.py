@@ -14,11 +14,12 @@ urlpatterns = [
     path('panier/<int:id_produit>/',views.PanierNouveauProduit,name='panier'),
     path('panier/',views.Panier,name='panier'),
     path('create/',views.Create,name='create'),
-    path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription"),
+    path('inscription/',views.AddUserView.as_view(template_name='subscribe.html'),name="inscription")
     path('paypal/', include('paypal.standard.ipn.urls')),
     path('paiementreussi/',views.paiementreussi,name='paiementreussi'),
     path('paiementcancel/',views.paiementcancel,name='paiementcancel'),
     path('paiement/',views.paypal,name='paypal'),
+    path('test/',views.paypal,name='paypal'),
     path('paypal-return',views.paypal_return,name='paypal-return'),
     path('paypal-cancel',views.paypal_cancel,name='paypal-cancel'),
 ]
