@@ -302,7 +302,7 @@ def paypal(request):
     for produit in produits:
         prixtotal += produit.prix_quantite
     taxes = round(prixtotal*0.14975,2)
-    prixfinal = prixtotal + taxes
+    prixfinal = round(prixtotal + taxes,2)
         
 
     paypal_dict = {
@@ -342,7 +342,7 @@ def paiementreussi(request):
     for produit in produits:
         prixtotal += produit.prix_quantite
     taxes = round(prixtotal*0.14975,2)
-    prixfinal = prixtotal + taxes
+    prixfinal = round(prixtotal + taxes,2)
     context = {
         'prixtotal':round(prixtotal,2),
         'taxes':taxes,

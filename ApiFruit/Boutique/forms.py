@@ -24,7 +24,15 @@ class AddUserForm(UserCreationForm):
         self.SendEmail()
         return user
     
-
+    def SendEmail(self):
+        mail = self.cleaned_data['email']
+        send_mail(
+            "Creation d'un compte",
+            "Merci de vous de vous avoir creer un compte sur ApiFruit",
+            "dionne.mathieu@outlook.com",
+            [mail],
+            fail_silently=False,
+        )
 
 class EditUserForm(UserChangeForm):
     email = dforms.EmailField(label="Courriel", widget=dforms.EmailInput(attrs={'class': 'form-control'}))
@@ -58,12 +66,4 @@ class ChangeUserPasswordForm(PasswordChangeForm):
 
 
 
-    def SendEmail(self):
-        mail = self.cleaned_data['email']
-        send_mail(
-            "Creation d'un compte",
-            "Merci de vous de vous avoir creer un compte sur ApiFruit",
-            "dionne.mathieu@outlook.com",
-            [mail],
-            fail_silently=False,
-        )
+    
